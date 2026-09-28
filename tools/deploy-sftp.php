@@ -12,28 +12,58 @@ function fail(string $message, int $code = 1): void {
  * @return array{0:string,1:string,2:int}
  */
 function runProcess(array $command, ?string $stdin = null): array {
+    $temporaryDirectory = sys_get_temp_dir();
+    $stdoutPath = tempnam($temporaryDirectory, 'libermedia-out-');
+    $stderrPath = tempnam($temporaryDirectory, 'libermedia-err-');
+    $stdinPath = null;
+
+    if ($stdoutPath === false || $stderrPath === false) {
+        fail('Unable to create temporary files for a child process.');
+    }
+
+    if ($stdin !== null) {
+        $stdinPath = tempnam($temporaryDirectory, 'libermedia-in-');
+
+        if ($stdinPath === false || file_put_contents($stdinPath, $stdin) === false) {
+            @unlink($stdoutPath);
+            @unlink($stderrPath);
+            fail('Unable to prepare input for a child process.');
+        }
+    }
+
     $descriptorSpec = [
-        0 => ['pipe', 'r'],
-        1 => ['pipe', 'w'],
-        2 => ['pipe', 'w'],
+        0 => ['file', $stdinPath ?? '/dev/null', 'r'],
+        1 => ['file', $stdoutPath, 'w'],
+        2 => ['file', $stderrPath, 'w'],
     ];
 
     $process = proc_open($command, $descriptorSpec, $pipes);
 
     if (!is_resource($process)) {
+        @unlink($stdoutPath);
+        @unlink($stderrPath);
+
+        if ($stdinPath !== null) {
+            @unlink($stdinPath);
+        }
+
         fail('Unable to start: ' . implode(' ', $command));
     }
 
-    if ($stdin !== null) {
-        fwrite($pipes[0], $stdin);
+    $status = proc_close($process);
+    $stdout = file_get_contents($stdoutPath);
+    $stderr = file_get_contents($stderrPath);
+
+    @unlink($stdoutPath);
+    @unlink($stderrPath);
+
+    if ($stdinPath !== null) {
+        @unlink($stdinPath);
     }
 
-    fclose($pipes[0]);
-    $stdout = stream_get_contents($pipes[1]);
-    $stderr = stream_get_contents($pipes[2]);
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    $status = proc_close($process);
+    if ($stdout === false || $stderr === false) {
+        fail('Unable to read child-process output.');
+    }
 
     return [$stdout, $stderr, $status];
 }
