@@ -1,0 +1,24 @@
+<table cellpadding="0" cellspacing="0" class="iAnalyticsDateFilter">
+  <tr>
+    <td>
+      <select class="form-control iAnalyticsSelectBox">
+        <option value="custom" {{ not iAnalyticsSelectData.enable.0 ? 'disabled="disabled" class="optionDisabled"' }} {{ iAnalyticsSelectData.select.0 ? 'selected="selected"' }}>{{ text_custom }}</option>
+        <option value="last-week" {{ not iAnalyticsSelectData.enable.1 ? 'disabled="disabled" class="optionDisabled"' }} {{ iAnalyticsSelectData.select.1 ? 'selected="selected"' }}>{{ text_week }}</option>
+        <option value="last-month" {{ not iAnalyticsSelectData.enable.2 ? 'disabled="disabled" class="optionDisabled"' }} {{ iAnalyticsSelectData.select.2 ? 'selected="selected"' }}>{{ text_month }}</option>
+        <option value="last-year" {{ not iAnalyticsSelectData.enable.3 ? 'disabled="disabled" class="optionDisabled"' }} {{ iAnalyticsSelectData.select.3 ? 'selected="selected"' }}>{{ text_year }}</option>
+      </select>
+    </td>
+    <td class="form-inline">
+      <label>{{ text_from }}</label>
+      <input value="{{ iAnalyticsFromDate }}" class="fromDate form-control" data-date-format="YYYY-MM-DD" style="width:100px;padding:10px;" type="text" maxlength="10" />
+    </td>
+    <td class="form-inline">
+      <label>{{ text_to }}</label>
+      <input value="{{ iAnalyticsToDate }}" class="toDate form-control" data-date-format="YYYY-MM-DD" style="width:100px;padding:10px;" type="text" maxlength="10" />
+    </td>
+    <td>
+      <button type="button" class="btn btn-warning dateFilterButton"><i class="fa fa-filter"></i>&nbsp; {{  text_filter }}</button>
+    </td>
+  </tr>
+</table>
+<div class="clearfix"></div>

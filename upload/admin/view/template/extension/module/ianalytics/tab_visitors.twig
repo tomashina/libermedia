@@ -1,0 +1,213 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked" id="visitsTabs">
+        <li><a href="#daily-total-stats_unique" data-toggle="tab" data-chart="daily_visitors"><i class="fa fa-users"></i>&nbsp;&nbsp;{{ text_daily_unique_visit }}</a></li>
+        <li><a href="#visitors-by-part-of-a-day" data-toggle="tab" data-chart="part_of_the_day"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ text_visitors_by_day }}</a></li>
+        <li><a href="#referer-stats" data-toggle="tab" data-chart="referer_stats"><i class="fa fa-external-link"></i>&nbsp;&nbsp;{{ text_refer_stats }}</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div style="float:right;overflow:hidden;">{{ element_filter }}</div>
+      <div class="tab-content">
+        <div id="daily-total-stats_unique" class="tab-pane fade">
+          <h3>{{ text_refer_stats }}</h3>
+          <div class="help">{{ text_refer_stats_help }}</div>
+
+          {% if tab.visitors.daily_unique.status %}
+            <br />
+            <div style="position: relative; padding-bottom: 38.5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                <canvas id="daily_visitors_canvas" style="max-width:100%; max-height:100%;"></canvas>
+              </div>
+            </div>
+            <script>
+              iAnalytics.charts.daily_visitors = {
+                instance: null,
+                name: 'daily_visitors',
+                canvas: 'daily_visitors_canvas',
+                type: 'Line',
+                data: {
+                  labels : {{ tab.visitors.daily_unique.labels }},
+                  datasets : [{
+                    label: "{{ text_daily_visitors }}",
+                    fillColor : "rgba(1,159,215,0.2)",
+                    strokeColor : "rgba(1,159,215,1)",
+                    pointColor : "rgba(1,159,215,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(1,159,215,1)",
+                    data : {{ tab.visitors.daily_unique.data }}
+                  }]
+                }
+              }
+            </script>
+          {% else %}
+            {{ text_no_chart_data }}
+          {% endif %}
+
+          <br />
+          <table class="table-hover table table-striped">
+            {% for key, item in tab.visitors.daily_unique.table %}
+              {% if key == tab.visitors.daily_unique.count - 1 %}
+                <thead>
+                  <tr>
+                    <th style="width:150px;">{{ item.0 }}</th>
+                    <th>{{ item.1 }}</th>
+                    <th>{{ item.2 }}</th>
+                    <th>{{ item.3 }}</th>
+                  </tr>
+                </thead>
+              {% else %}
+                <tr>
+                  <td>{{ item.0 }}</td>
+                  <td>{{ item.1 }}</td>
+                  <td>{{ item.2 }}</td>
+                  <td>{{ item.3 }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+          <div class="clearfix"></div>
+        </div>
+
+        <div id="visitors-by-part-of-a-day" class="tab-pane fade">
+          <h3>{{ text_visitors_by_day }}</h3>
+          <div class="help">{{ text_visitors_by_day_help }}</div>
+          {% if tab.visitors.daily_parts.status %}
+            <br />
+            <div style="position: relative; padding-bottom: 30%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                <canvas id="part_of_the_day_canvas" style="max-width:100%; max-height:100%;"></canvas>
+              </div>
+            </div>
+            <script type="text/javascript">
+              iAnalytics.charts.part_of_the_day = {
+                instance: null,
+                name: 'part_of_the_day',
+                canvas: 'part_of_the_day_canvas',
+                type: 'Line',
+                data: {
+                  labels : {{ tab.visitors.daily_parts.labels }},
+                  datasets : [{
+                    label: "Visitors by Part of the Day",
+                    fillColor : "rgba(1,159,215,0.2)",
+                    strokeColor : "rgba(1,159,215,1)",
+                    pointColor : "rgba(1,159,215,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(1,159,215,1)",
+                    data : {{ tab.visitors.daily_parts.data }}
+                  }]
+                }
+              }
+            </script>
+          {% else %}
+            {{ text_no_chart_data }}
+          {% endif %}
+
+          <br />
+          <table class="table-hover table table-striped">
+            {% for key, item in tab.visitors.daily_parts.table %}
+              {% if key == 0 %}
+                <thead>
+                  <tr>
+                    <th style="width:150px;">{{ item.0 }}</th>
+                    <th>{{ item.1 }}</th>
+                    <th>{{ item.2 }}</th>
+                    <th>{{ item.3 }}</th>
+                  </tr>
+                </thead>
+              {% else %}
+                <tr>
+                  <td>{{ item.0 }}</td>
+                  <td>{{ item.1 }}</td>
+                  <td>{{ item.2 }}</td>
+                  <td>{{ item.3 }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+          <div class="clearfix"></div>
+        </div>
+
+        <div id="referer-stats" class="tab-pane fade">
+          <h3>{{ text_referer_statistics }}</h3>
+          <div class="help">{{ text_referer_statistics_h }}</div>
+          {% if tab.visitors.traffic_sources.status %}
+            <br />
+            <div style="position: relative; padding-bottom: 30%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                <canvas id="referer_stats_canvas" style="max-width:100%; max-height:100%;"></canvas>
+              </div>
+            </div>
+            <script>
+              iAnalytics.charts.referer_stats = {
+                instance: null,
+                name: 'referer_stats',
+                canvas: 'referer_stats_canvas',
+                type: 'Pie',
+                data: [
+                  {
+                    value: {{ tab.visitors.traffic_sources.data.0 }},
+                    color:"#019FD7",
+                    highlight: "#019FD7",
+                    label: "Direct hits"
+                  },
+                  {
+                    value: {{ tab.visitors.traffic_sources.data.1 }},
+                    color: "#9ECC3C",
+                    highlight: "#9ECC3C",
+                    label: "Social networks"
+                  },
+                  {
+                    value: {{ tab.visitors.traffic_sources.data.2 }},
+                    color: "#FFDB1A",
+                    highlight: "#FFDB1A",
+                    label: "Search engines"
+                  },
+                  {
+                    value: {{ tab.visitors.traffic_sources.data.3 }},
+                    color: "#9D9D9D",
+                    highlight: "#9D9D9D",
+                    label: "Other"
+                  }
+                ]
+              }
+            </script>
+            <div id="referer_stats_legend"></div>
+          {% else %}
+            {{ text_no_chart_data }}
+          {% endif %}
+
+          <br />
+          <table class="table-hover table table-striped">
+            {% for key, item in tab.visitors.traffic_sources.table %}
+              {% if key == 0 %}
+                <thead>
+                  <tr>
+                    <th style="width:150px;">{{ item.0 }}</th>
+                    <th>{{ item.1 }}</th>
+                    <th>{{ item.2 }}</th>
+                    <th>{{ item.3 }}</th>
+                    <th>{{ item.4 }}</th>
+                  </tr>
+                </thead>
+              {% else %}
+                <tr>
+                  <td>{{ item.0 }}</td>
+                  <td>{{ item.1 }}</td>
+                  <td>{{ item.2 }}</td>
+                  <td>{{ item.3 }}</td>
+                  <td>{{ item.4 }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+</div>

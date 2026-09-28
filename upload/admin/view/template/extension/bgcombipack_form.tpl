@@ -1,0 +1,105 @@
+<?php echo $header; ?><?php echo $column_left; ?>
+
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-bgcombipack" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a> </div>
+      <h1><?php echo $heading_title; ?></h1>
+      <ul class="breadcrumb">
+        <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+        <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+        <?php } ?>
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <?php if ($error_warning) { ?>
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <?php } ?>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+      </div>
+      <div class="panel-body">
+        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-bgcombipack" class="form-horizontal">
+            <?php echo $form_html_data; ?>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 
+<script language="javascript" type="text/javascript">
+function geturlparam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	return results[1] || 0;
+}
+function allownum() {
+	$('input[name*="discount"]').keydown(function(e) {
+		var key = e.charCode || e.keyCode || 0;
+		return ( key == 8 || key == 9 || key == 13 || key == 46 || key == 110 || key == 190 || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+	});
+}
+function load_autocmp_pcm(inptname, typeset) {	
+	token = geturlparam('token');
+	
+	$('input[name=\''+inptname+'\']').autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: 'index.php?route=catalog/'+typeset+'/autocomplete&token='+token+'&filter_name=' +  encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					response($.map(json, function(item) {
+						return {
+							label: item['name'],
+							value: item[''+typeset+'_id']
+						}
+					}));
+				}
+			});
+		},
+		select: function(item) {
+			$('input[name=\''+inptname+'\']').val('');
+			
+			$('#'+inptname+ item['value']).remove();
+			
+			$('#'+inptname).append('<div id="'+inptname+'-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="'+inptname+'[]" value="' + item['value'] + '" /></div>');	
+		}
+	});
+		
+	$('#'+inptname).delegate('.fa-minus-circle', 'click', function() {
+		$(this).parent().remove();
+	}); 
+}
+$(document).ready(function() {
+	$('.date').datetimepicker({pickTime: false});
+	
+	setInterval(function(){
+		if($("input[name='disctype']:checked").val() > 0) { 
+			$("input[name*='discount']").parent().parent().show();
+		} else {
+			$("input[name*='discount']").parent().parent().hide();
+		}
+	}, 100);	
+	
+	allownum();
+  	
+	load_autocmp_pcm('buyproduct', 'product');
+	load_autocmp_pcm('exbuyproduct', 'product');
+	load_autocmp_pcm('buycategory', 'category');
+	load_autocmp_pcm('exbuycategory', 'category');	
+	load_autocmp_pcm('buymanufacturer', 'manufacturer');
+	load_autocmp_pcm('exbuymanufacturer', 'manufacturer');
+	
+	load_autocmp_pcm('getproduct', 'product');
+	load_autocmp_pcm('exgetproduct', 'product');
+	load_autocmp_pcm('getcategory', 'category');
+	load_autocmp_pcm('exgetcategory', 'category');	
+	load_autocmp_pcm('getmanufacturer', 'manufacturer');
+	load_autocmp_pcm('exgetmanufacturer', 'manufacturer');
+});
+</script>
+<?php echo $footer; ?>

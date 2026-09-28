@@ -1,0 +1,105 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-bgcombipack" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+        <a href="{{ cancel }}" data-bs-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i class="fas fa-reply"></i></a> </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if(error_warning) %}
+    <div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="card">
+      <div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_form }} </div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-bgcombipack" class="form-horizontal">
+              {{ form_html_data }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script language="javascript" type="text/javascript">
+function geturlparam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	return results[1] || 0;
+}
+function allownum() {
+	$('input[name*="discount"]').keydown(function(e) {
+		var key = e.charCode || e.keyCode || 0;
+		return ( key == 8 || key == 9 || key == 13 || key == 46 || key == 110 || key == 190 || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+	});
+}
+function load_autocmp_pcm(inptname, typeset) {
+	user_token = geturlparam('user_token');
+	
+	$('input[name=\''+inptname+'\']').autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: 'index.php?route=catalog/'+typeset+'.autocomplete&user_token='+user_token+'&filter_name=' +  encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					response($.map(json, function(item) {
+						return {
+							label: item['name'],
+							value: item[''+typeset+'_id']
+						}
+					}));
+				}
+			});
+		},
+		'select': function (item) {
+			$('#input-'+inptname).val('');
+	
+			$('#input-'+inptname+'-' + item['value']).remove();
+	
+			html = '<tr id="tr-'+inptname+'-' + item['value'] + '">';
+			html += '  <td>' + item['label'] + '<input type="hidden" name="'+inptname+'[]" value="' + item['value'] + '"/></td>';
+			html += '  <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-minus-circle"></i></button></td>';
+			html += '</tr>';
+	
+			$('#tbl-'+inptname+' tbody').append(html);
+		}
+	});
+		
+	$('#tbl-'+inptname).on('click', '.btn', function () {
+		$(this).parent().parent().remove();
+	}); 
+}
+$(document).ready(function() {	
+	setInterval(function(){
+		if($("input[name='disctype']:checked").val() > 0) { 
+			$("input[name*='discount']").parent().parent().show();
+		} else {
+			$("input[name*='discount']").parent().parent().hide();
+		}
+	}, 100);	
+	
+	allownum();
+  	
+	load_autocmp_pcm('buyproduct', 'product');
+	load_autocmp_pcm('exbuyproduct', 'product');
+	load_autocmp_pcm('buycategory', 'category');
+	load_autocmp_pcm('exbuycategory', 'category');	
+	load_autocmp_pcm('buymanufacturer', 'manufacturer');
+	load_autocmp_pcm('exbuymanufacturer', 'manufacturer');
+	
+	load_autocmp_pcm('getproduct', 'product');
+	load_autocmp_pcm('exgetproduct', 'product');
+	load_autocmp_pcm('getcategory', 'category');
+	load_autocmp_pcm('exgetcategory', 'category');	
+	load_autocmp_pcm('getmanufacturer', 'manufacturer');
+	load_autocmp_pcm('exgetmanufacturer', 'manufacturer');
+});
+</script>
+{{ footer }}

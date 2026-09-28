@@ -1,0 +1,232 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div style="float:right;overflow:hidden;">{{ element_filter }}</div>
+      <h3>{{ text_dashboard }}</h3>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-8">
+          <h4>{{ text_daily_visitors }}<div style="float:right;"><a href="#daily-total-stats-more" data-toggle="tab" class="btn btn-sm btn-default">{{ text_more }}</a></div></h4>
+          <br />
+          <div class="thumbnail">
+            {% if tab.visitors.daily_unique.status %}
+              <br />
+              <div style="position: relative; padding-bottom: 38.5%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                  <canvas id="dashboard_visitors_canvas" style="max-width:100%; max-height:100%;"></canvas>
+                </div>
+              </div>
+              <script>
+                iAnalytics.charts.dashboard_visitors = {
+                  instance: null,
+                  name: 'dashboard_visitors',
+                  canvas: 'dashboard_visitors_canvas',
+                  type: 'Line',
+                  data: {
+                    labels : {{ tab.visitors.daily_unique.labels }},
+                    datasets : [{
+                      label: "{{ text_daily_visitors }}",
+                      fillColor : "rgba(1,159,215,0.2)",
+                      strokeColor : "rgba(1,159,215,1)",
+                      pointColor : "rgba(1,159,215,1)",
+                      pointStrokeColor : "#fff",
+                      pointHighlightFill : "#fff",
+                      pointHighlightStroke : "rgba(1,159,215,1)",
+                      data : {{ tab.visitors.daily_unique.data }}
+                    }]
+                  }
+                }
+              </script>
+            {% else %}
+              {{ text_no_chart_data }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h4>{{ text_traffic_sources }}<div style="float:right;"><a href="#traffic-sources-more" data-toggle="tab" class="btn btn-sm btn-default">{{ text_more }}</a></div></h4>
+          <br />
+          <div class="thumbnail">
+            {% if tab.visitors.traffic_sources.status %}
+              <br />
+              <div style="position: relative; padding-bottom: 64%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                  <canvas id="dashboard_referers_canvas" style="max-width:100%; max-height:100%;"></canvas>
+                </div>
+              </div>
+              <script>
+                iAnalytics.charts.dashboard_referers = {
+                  instance: null,
+                  name: 'dashboard_referers',
+                  canvas: 'dashboard_referers_canvas',
+                  type: 'Pie',
+                  data: [
+                    {
+                      value: {{ tab.visitors.traffic_sources.data.0 }},
+                      color:"#019FD7",
+                      highlight: "#019FD7",
+                      label: "Direct hits"
+                    },
+                    {
+                      value: {{ tab.visitors.traffic_sources.data.1 }},
+                      color: "#9ECC3C",
+                      highlight: "#9ECC3C",
+                      label: "Social networks"
+                    },
+                    {
+                      value: {{ tab.visitors.traffic_sources.data.2 }},
+                      color: "#FFDB1A",
+                      highlight: "#FFDB1A",
+                      label: "Search engines"
+                    },
+                    {
+                      value: {{ tab.visitors.traffic_sources.data.3 }},
+                      color: "#9D9D9D",
+                      highlight: "#9D9D9D",
+                      label: "Other"
+                    }
+                  ]
+                }
+              </script>
+              <div id="dashboard_referers_legend"></div>
+            {% else %}
+              {{ text_no_chart_data }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h4>{{ text_sales }}<div style="float:right;"><a href="#sales-report-more" data-toggle="tab" class="btn btn-sm btn-default">{{ text_more }}</a></div></h4>
+          <br />
+          <div class="thumbnail">
+            {% if tab.aftersale.sales_report.status %}
+              <br />
+              <div style="position: relative; padding-bottom: 50%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                  <canvas id="dashboard_sales_canvas" style="max-width:100%; max-height:100%;"></canvas>
+                </div>
+              </div>
+              <script>
+                iAnalytics.charts.dashboard_sales = {
+                  instance: null,
+                  name: 'dashboard_sales',
+                  canvas: 'dashboard_sales_canvas',
+                  type: 'Line',
+                  data: {
+                    labels : [
+                      {% for order in tab.aftersale.sales_report.orders %}
+                        '{{ order.date_start == order.date_end ? order.date_start : order.date_start ~ '-' ~ order.date_end }}',
+                      {% endfor %}
+                    ],
+                    datasets : [
+                    {
+                      label: "Total",
+                      fillColor: "rgba(180,180,180,0.2)",
+                      strokeColor: "rgba(180,180,180,1)",
+                      pointColor: "rgba(180,180,180,1)",
+                      pointStrokeColor : "#fff",
+                      pointHighlightFill : "#fff",
+                      pointHighlightStroke: "rgba(1,159,215,1)",
+                      data : {{ tab.aftersale.sales_report.dataTotal }}
+                    },
+                    {
+                      label: "Revenue",
+                      fillColor: "rgba(158,204,60,0.2)",
+                      strokeColor: "rgba(158,204,60,1)",
+                      pointColor: "rgba(158,204,60,1)",
+                      pointStrokeColor: "#fff",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(151,187,205,1)",
+                      data : {{ tab.aftersale.sales_report.dataRevenue }}
+                    },
+                    {
+                      label: "Taxes",
+                      fillColor : "rgba(204,60,60,0.2)",
+                      strokeColor : "rgba(204,60,60,1)",
+                      pointColor : "rgba(204,60,60,1)",
+                      pointStrokeColor : "#fff",
+                      pointHighlightFill : "#fff",
+                      pointHighlightStroke : "rgba(204,60,60,1)",
+                      data : {{ tab.aftersale.sales_report.dataTaxes }}
+                    },]
+                  }
+                }
+              </script>
+              <div id="dashboard_sales_legend"></div>
+            {% else %}
+             {{ text_no_chart_data }}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4>{{ text_most_searched_keywords }}<div style="float:right;"><a href="#searched-keywords-more" data-toggle="tab" class="btn btn-sm btn-default">{{ text_more }}</a></div></h4>
+          <br />
+          <div class="thumbnail">
+            {% if tab.presale.most_search.chart_status %}
+              <br />
+              <div style="position: relative; padding-bottom: 45%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                  <canvas id="dashboard_keywords_canvas" style="max-width:100%; max-height:100%;"></canvas>
+                </div>
+              </div>
+              <script>
+                iAnalytics.charts.dashboard_keywords = {
+                  instance: null,
+                  name: 'dashboard_keywords',
+                  canvas: 'dashboard_keywords_canvas',
+                  type: 'Pie',
+                  data: [
+                    {% for key, item in tab.presale.most_search.chart %}
+                      {
+                        value: {{ item.0 }},
+                        color: "#" + iAnalyticsColors[{{ item.1 }}],
+                        highlight: "#" + iAnalyticsColors[{{ item.1 }}],
+                        label: "{{ key }}"
+                      },
+                    {% endfor %}
+                  ]
+                }
+              </script>
+              <div id="dashboard_keywords_legend"></div>
+            {% else %}
+             {{ text_no_chart_data }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <h4>{{ text_funnel_conversion_rate }} {{ tab.aftersale.funnel.rate }} <div style="float:right;"><a href="#conversion-rate-more" data-toggle="tab" class="btn btn-sm btn-default">{{ text_more }}</a></div></h4>
+      <br />
+      <div class="thumbnail">
+        <center>
+          <div id="funnelDashboard" class="iFunnel"></div>
+        </center>
+        {% if tab.aftersale.funnel.status %}
+          <script>
+            var funnelData = [
+              ['{{ text_first_visit }}', {{ tab.aftersale.funnel.table.1[1] }}],
+              ['{{ text_add_to_cart }}', {{ tab.aftersale.funnel.table.2[1] ?: 0 }}],
+              ['{{ text_login_register }}', {{ tab.aftersale.funnel.table.3[1] ?: 0 }}],
+              ['{{ text_delivery_method }}', {{ tab.aftersale.funnel.table.4[1] ?: 0 }}],
+              ['{{ text_payment_method }}', {{ tab.aftersale.funnel.table.5[1] ?: 0 }}],
+              ['{{ text_confirm_order }}', {{ tab.aftersale.funnel.table.6[1] ?: 0 }}],
+              ['{{ text_successful_order }}', {{ tab.aftersale.funnel.table.7[1] ?: 0 }}]
+            ];
+            var chart = new FunnelChart(funnelData, 300, 550, 1/2);
+            chart.draw('#funnelDashboard', 2);
+          </script>
+        {% else %}
+          {{ text_no_chart_data }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+{% if tab.aftersale.customer_orders.status %}
+  <br />
+  <div style="position: relative; padding-bottom: 30%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      <canvas id="customers_report_canvas" style="max-width:100%; max-height:100%;"></canvas>
+    </div>
+  </div>
+  <script>
+    iAnalytics.charts.customers_report = {
+      instance: null,
+      name: 'customers_report',
+      canvas: 'customers_report_canvas',
+      type: 'Bar',
+      data: {
+        labels : {{ tab.aftersale.customer_orders.labels }},
+        datasets : [{
+          label: "Customers",
+          fillColor: "rgba(1,159,215,0.5)",
+          strokeColor: "rgba(1,159,215,0.8)",
+          highlightFill: "rgba(1,159,215,0.75)",
+          highlightStroke: "rgba(1,159,215,1)",
+          data : {{ tab.aftersale.customer_orders.data }}
+        }]
+      }
+    }
+  </script>
+{% else %}
+  {{ text_no_chart_data }}
+{% endif %}
+<br />
+
+<div id="customersTableWrapper">
+  <table class="table-hover table table-striped">
+	<thead>
+	  <tr>
+	  <th style="width:12%;">{{ text_customer_name }}</th>
+	  <th style="width:12%;">{{ text_email }}</th>
+	  <th style="width:12%;">{{ text_group }}</th>
+	  <th style="width:12%;">{{ text_status }}</th>
+	  <th style="width:12%;">{{ text_orders }}</th>
+	  <th style="width:12%;">{{ text_total }}</th>
+	  <th style="width:12%;">{{ text_action }}</th>
+	  </tr>
+	</thead>
+  {% if tab.aftersale.customer_orders.status %}
+	{% for customer in tab.aftersale.customer_orders.table %}
+	  <tr>
+		<td>{{ customer.customer }}</td>
+		<td>{{ customer.email }}</td>
+		<td>{{ customer.customer_group }}</td>
+		<td>{{ customer.status }}</td>
+		<td>{{ customer.orders }}</td>
+		<td>{{ customer.total }}</td>
+		<td><a class="btn btn-default btn-sm" target="_blank" href="{{ customer.action.href }}"><i class="fa fa-pencil"></i>&nbsp;{{ customer.action.text }}</a></td>
+	  </tr>
+	{% endfor %}
+  {% else %}
+	<tr>
+	  <td class="center" colspan="7">There are no results yet!</td>
+	</tr>
+  {% endif %}
+  </table>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 text-left">{{ tab.aftersale.most_product_order.pagination.render }}</div>
+  <div class="col-sm-6 text-right">{{ tab.aftersale.most_product_order.pagination.results }}</div>
+</div>

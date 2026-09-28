@@ -1,0 +1,101 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <h5><span class="required">* </span><strong>{{ text_module_status }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_module_status_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <select id="Checker" name="{{ moduleName }}[Enabled]" class="form-control">
+        <option value="yes" {{ moduleData.Enabled == 'yes' ? 'selected=selected' }}>{{ text_enabled }}</option>
+        <option value="no" {{ moduleData.Enabled is empty or moduleData.Enabled == 'no' ? 'selected=selected' }}>{{ text_disabled }}</option>
+      </select>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-3">
+      <h5><strong>{{ text_co_after_sale }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_co_after_sale_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <select name="{{ moduleName }}[AfterSaleData]" class="form-control">
+        <option value="yes" {{ moduleData.AfterSaleData == 'yes' ? 'selected=selected' }}>{{ text_enabled }}</option>
+        <option value="no" {{ moduleData.AfterSaleData is empty or moduleData.AfterSaleData == 'no' ? 'selected=selected' }}>{{ text_disabled }}</option>
+      </select>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-3">
+      <h5><strong>{{ text_google_analytics }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_google_analyt_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <select name="{{ moduleName }}[GoogleAnalytics]" id="GA_ecommerce" class="form-control">
+        <option value="yes" {{ moduleData.GoogleAnalytics == 'yes' ? 'selected=selected' }}>{{ text_enabled }}</option>
+        <option value="no" {{ moduleData.GoogleAnalytics is empty or moduleData.GoogleAnalytics == 'no' ? 'selected=selected' }}>{{ text_disabled }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="custom_settings">
+    <hr />
+  </div>
+  <div class="row custom_settings">
+    <div class="col-md-3">
+      <h5><strong>{{ text_google_account_nr }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_google_an_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="G-xxxxxxxxxx (GA4) - UA-XXXXXXX-XX (Universal)" name="{{ moduleName }}[GoogleAnalyticsIDNumber]"  id="moduleGA_id" value="{{ moduleData.GoogleAnalyticsIDNumber }}">
+      </div>
+    </div>
+    {% if moduleData.GoogleAnalyticsTracking == 'regular_tracking' or moduleData.GoogleAnalyticsTracking == 'ec_tracking' %}
+    <div class="col-md-4">
+      <a class="btn btn-primary" onclick="return popitup('https://www.google.com/analytics/web/#report/conversions-ecommerce-overview/')" style="margin-top:15px;">{{ text_ecommerce_trac_button }}</a>
+    </div>
+    {% endif %}
+  </div>
+  <div class="row custom_settings">
+    <hr />
+    <div class="col-md-3">
+      <h5><strong>{{ text_tracking_code }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_tracking_code_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <select name="{{ moduleName }}[GoogleAnalyticsTracking]" id="GoogleAnalyticsTracking" class="form-control">
+        <option value="regular_tracking" {{ moduleData.GoogleAnalyticsTracking == 'regular_tracking' ? 'selected=selected' }}>{{ text_regular_tracking }}</option>
+        <option value="ec_tracking" {{ moduleData.GoogleAnalyticsTracking == 'ec_tracking' ? 'selected=selected' }}>{{ text_enhanced_tracking }}</option>
+        <option value="ga4_tracking" {{moduleData.GoogleAnalyticsTracking is empty or moduleData.GoogleAnalyticsTracking == 'ga4_tracking' ? 'selected=selected' }}>{{ text_ga4_tracking }}</option>
+      </select>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-3">
+      <h5><strong>{{ text_clear_analytics }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_clear_analytics_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <a class="btn btn-default" onclick="return confirm('Are you sure you wish to delete all analytics data?');" href="index.php?route={{ modulePath }}/deleteanalyticsdata&user_token={{ user_token }}"><span class="fa fa-trash"></span>&nbsp; {{ text_claer_all }}</a>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-3">
+      <h5><strong>{{ text_balcklisted }}</strong></h5>
+      <span class="help"><i class="fa fa-info-circle"></i> {{ text_balcklisted_help }}</span>
+    </div>
+    <div class="col-md-4">
+      <textarea id="blacklistedIPsArea" class="form-control" name="{{ moduleName }}[BlacklistedIPs]">{{ moduleData.BlacklistedIPs }}</textarea>
+    </div>
+  </div>
+</div>
+
+<script>
+function popitup(url) {
+  newwindow = window.open(url,'name','height=750,width=950,toolbar=no,menubar=no,scrollbars=no,location=no,directories=no');
+  if (window.focus) { newwindow.focus(); }
+  return false;
+}
+</script>

@@ -1,0 +1,13 @@
+.bgcombipack_rib1, .bgcombipack_rib2, .bgcombipack_rib3, .bgcombipack_rib4{width:150px;height:25px;line-height:25px;position:absolute;background:#e05d5d; color:#fff; text-align:center;font-weight:bold; font-size:10px; left:-0;}
+.bgcombipack_rib1:after, .bgcombipack_rib2:after, .bgcombipack_rib3:after, .bgcombipack_rib4:after{content:"";position:absolute;height:0;width:0;right:-14.5px;border-top:10px solid transparent;border-bottom:15px solid transparent; border-left:15px solid #e05d5d;top: 0px;}
+
+.bgcombipack_rib5, .bgcombipack_rib6, .bgcombipack_rib7, .bgcombipack_rib8{width:120px;height:25px;line-height:25px;position:absolute;background:#ff0000; color:#fff; text-align:center;font-weight:bold; font-size:9px; right:-0;}
+.bgcombipack_rib5:after, .bgcombipack_rib6:after, .bgcombipack_rib7:after, .bgcombipack_rib8:after{content:"";position:absolute;height:0;width:0;left:-14.5px;border-top:10px solid transparent;border-bottom:15px solid transparent; border-right:15px solid #ff0000}
+
+.bgcombipack_rib1, .bgcombipack_rib5{top:20px;z-index:999}
+.bgcombipack_rib2, .bgcombipack_rib6{top:40px;z-index:999}
+.bgcombipack_rib3, .bgcombipack_rib7{top:70px;z-index:999}
+.bgcombipack_rib4, .bgcombipack_rib8{top:100px;z-index:999}
+
+.product-thumb{overflow:hidden !important;position:inherit;}
+ul.thumbnails li { position: relative; overflow: hidden; }

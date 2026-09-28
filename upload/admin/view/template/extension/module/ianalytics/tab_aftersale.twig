@@ -1,0 +1,159 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked" id="afterSaleTabs">
+        <li><a href="#customer-funnel" data-toggle="tab"><i class="fa fa-filter"></i>&nbsp;&nbsp;{{ text_customers_funnel }}</a></li>
+        <li><a href="#sales-report" data-toggle="tab" data-chart="sales_report"><i class="fa fa-money"></i>&nbsp;&nbsp;{{ text_sales_report }}</a></li>
+        <li><a href="#ordered-products" data-toggle="tab" data-chart="products_report"><i class="fa fa-download"></i>&nbsp;&nbsp;{{ text_most_ordered_product }}</a></li>
+        <li><a href="#customer-orders" data-toggle="tab" data-chart="customers_report"><i class="fa fa-users"></i>&nbsp;&nbsp;{{ text_customer_order }}</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="tab-content">
+        <div id="customer-funnel" class="tab-pane fade">
+          <div style="float:right;overflow:hidden;">{{ element_filter }}</div>
+          <h3>{{ text_customers_funnel }}</h3>
+          <div class="help">{{ text_co_help }}</div>
+          <br />
+          <div class="row">
+            <div class="col-md-6">
+              <center>
+                <div id="funnelCustomer" class="iFunnel"></div>
+              </center>
+              {% if tab.aftersale.funnel.status %}
+                <script>
+                  var funnelData = [
+                    ['{{ text_first_visit }}', {{ tab.aftersale.funnel.table.1[1] }}],
+                    ['{{ text_add_to_cart }}', {{ tab.aftersale.funnel.table.2[1] ?: 0 }}],
+                    ['{{ text_login_register }}', {{ tab.aftersale.funnel.table.3[1] ?: 0 }}],
+                    ['{{ text_delivery_method }}', {{ tab.aftersale.funnel.table.4[1] ?: 0 }}],
+                    ['{{ text_payment_method }}', {{ tab.aftersale.funnel.table.5[1] ?: 0 }}],
+                    ['{{ text_confirm_order }}', {{ tab.aftersale.funnel.table.6[1] ?: 0 }}],
+                    ['{{ text_successful_order }}', {{ tab.aftersale.funnel.table.7[1] ?: 0 }}]
+                  ];
+                  var chart = new FunnelChart(funnelData, 400, 500, 1/3);
+                  chart.draw('#funnelCustomer', 2);
+                </script>
+              {% else %}
+                {{ text_no_chart_data }}
+              {% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h4 style="margin-top:10px;">
+                    <i class="fa fa-retweet"></i>&nbsp;<strong>{{ text_conversion_rate }}
+                    <span id="rate">{{ tab.aftersale.funnel.rate }}</span></strong>
+                  </h4>
+                </div>
+                <div class="panel-body">
+                  <h6>{{ text_conversion_rate_bo }}</h6>
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <select id="firstConversion" class="form-control">
+                        <option value="0">{{ text_first_visit }}</option>
+                        <option value="1">{{ text_add_to_cart }}</option>
+                        <option value="2">{{ text_login_register }}</option>
+                        <option value="3">{{ text_delivery_method }}</option>
+                        <option value="4">{{ text_payment_method }}</option>
+                        <option value="5">{{ text_confirm_order }}</option>
+                        <option value="6">{{ text_successful_order }}</option>
+                      </select>
+                    </div>
+                    <div class="col-xs-2" style="text-align:center;">
+                      <p style="font-weight:700;padding-top:6px;font-size:15px;">vs.</p>
+                    </div>
+                    <div class="col-xs-5" style="padding-left:0">
+                      <select id="secondConversion" class="form-control">
+                        <option value="0">{{ text_first_visit }}</option>
+                        <option value="1">{{ text_add_to_cart }}</option>
+                        <option value="2">{{ text_login_register }}</option>
+                        <option value="3">{{ text_delivery_method }}</option>
+                        <option value="4">{{ text_payment_method }}</option>
+                        <option value="5">{{ text_confirm_order }}</option>
+                        <option value="6" selected='selected'>{{ text_successful_order }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <script>
+                $("#firstConversion, #secondConversion").change(function() {
+                  var result = parseFloat(parseInt($('#'+$('#secondConversion').val()).text()) * 100) / parseInt($('#'+$('#firstConversion').val()).text()).toFixed(2);
+                  $('#rate').text(result.toFixed(2) + '%');
+                });
+              </script>
+              <table class="table-hover table table-striped">
+                {% for key, item in tab.aftersale.funnel.table %}
+                  {% if key == 0 %}
+                    <thead>
+                      <tr>
+                        <th>{{ item.0 }}</th>
+                        <th>{{ item.1 }}</th>
+                      </tr>
+                    </thead>
+                  {% else %}
+                    <tr>
+                      <td>
+                        {% if item.0 == 0 %}
+                          {{ text_first_visit }}
+                        {% elseif item.0 == 1 %}
+                          {{ text_add_to_cart }}
+                        {% elseif item.0 == 2 %}
+                          {{ text_login_register }}
+                        {% elseif item.0 == 3 %}
+                          {{ text_delivery_method }}
+                        {% elseif item.0 == 4 %}
+                          {{ text_payment_method }}
+                        {% elseif item.0 == 5 %}
+                          {{ text_confirm_order }}
+                        {% elseif item.0 == 6 %}
+                          {{ text_successful_order }}
+                        {% endif %}
+                      </td>
+                      <td>
+                        <div id="{{ item.0 }}">{{ item.1 }}</div>
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </table>
+
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <div id="sales-report" class="tab-pane fade">
+          <div style="float:right;overflow:hidden;">{{ report_sales_filter }}</div>
+          <h3>{{ text_sales }}</h3>
+          <div class="help">{{ text_sales_help }}</div>
+          <br />
+          {{ report_sales }}
+          <div class="clearfix"></div>
+        </div>
+
+        <div id="ordered-products" class="tab-pane fade">
+          <div style="float:right;overflow:hidden;">{{ report_product_purchased_filter }}</div>
+          <h3>{{ text_products }}</h3>
+          <div class="help">{{ text_products_help }}</div>
+          <br />
+          {{ report_product_purchased }}
+          <div class="clearfix"></div>
+        </div>
+
+
+        <div id="customer-orders" class="tab-pane fade">
+          <div style="float:right;overflow:hidden;">{{ report_product_purchased_filter }}</div>
+          <h3>{{ text_customers }}</h3>
+          <div class="help">{{ text_customers_help }}</div>
+          <br />
+          {{ report_customer_orders }}
+          <div class="clearfix"></div>
+        </div>
+
+      </div><!-- /.tab-content -->
+    </div><!-- /.col-md-9 -->
+  </div>
+</div>

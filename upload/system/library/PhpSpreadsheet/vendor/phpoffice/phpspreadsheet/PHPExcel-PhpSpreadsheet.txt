@@ -1,0 +1,37 @@
+$this->objPHPExcel = new PHPExcel();		zmeniť na
+$spreadsheet = new Spreadsheet();
+	$sheet = $spreadsheet->getActiveSheet();
+
+$this->objPHPExcel->getProperties()		zmeniť na		$spreadsheet->getProperties()
+
+$this->objPHPExcel->setActiveSheetIndex(0);		vymazať
+
+$j = 0		zmeniť na		$j = 1
+
+$col = PHPExcel_Cell::stringFromColumnIndex($j++);		zmeniť na		$col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($j++);
+
+$this->objPHPExcel->getActiveSheet()		zmeniť na		$sheet
+
+PHPExcel_Style_Alignment		zmeniť na		\PhpOffice\PhpSpreadsheet\Style\Alignment
+
+PHPExcel_Style_NumberFormat		zmeniť na		\PhpOffice\PhpSpreadsheet\Style\NumberFormat
+
+getHighestDataColumn			zmeniť na		getHighestColumn
+
+getHighestDataRow			zmeniť na		getHighestRow
+
+PHPExcel_Style_Fill			zmeniť na		\PhpOffice\PhpSpreadsheet\Style\Fill
+
+PHPExcel_Worksheet_Drawing			zmeniť na		\PhpOffice\PhpSpreadsheet\Worksheet\Drawing
+
+$objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel2007');			zmeniť na		
+// ob_clean();
+		// ob_start();
+		$writer = new Xlsx($spreadsheet);
+
+$objWriter->save('php://output');			zmeniť na		
+$writer->save("php://output");
+		// ob_end_flush();
+
+$objWriter->save($file);			zmeniť na		$writer->save($file);
+

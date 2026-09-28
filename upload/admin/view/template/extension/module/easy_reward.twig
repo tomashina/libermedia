@@ -1,0 +1,162 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<style type="text/css">
+.toggle-button{position:relative;display:inline-block;color:#fff;}
+.toggle-button label{display:inline-block;text-transform:uppercase;cursor:pointer;text-align:left;}
+.toggle-button input{display:none;}
+.toggle-button-icon{cursor:pointer;pointer-events:none;}
+.toggle-button-icon:before, .toggle-button-icon:after{content:"";position:absolute;top:45%;left:35%;transition:0.2s ease-out;}
+.toggle-button-aava label{height:40px;line-height:40px;transition:all 0.2s;border-radius:2rem;}
+.toggle-button-aava label:before, .toggle-button-aava label:after{position:absolute;right:1.5rem;transition:all 0.2s .1s ease-out;}
+.toggle-button-aava label:before{content:attr(data-on-text);}
+.toggle-button-aava label:after{content:attr(data-off-text);}
+.toggle-button-aava input[type=checkbox] + label{width:125px;background:#e3503e;}
+.toggle-button-aava input[type=checkbox] + label:before{opacity:0;transform:translate(0, 20px);}
+.toggle-button-aava input[type=checkbox] + label:after{opacity:1;transform:translate(0, 0);}
+.toggle-button-aava input[type=checkbox]:checked ~ label{background:#61B136;}
+.toggle-button-aava input[type=checkbox]:checked ~ label:before{opacity:1;transform:translate(0, 0);}
+.toggle-button-aava input[type=checkbox]:checked ~ label:after{opacity:0;transform:translate(0, -20px);}
+.toggle-button-aava input[type=checkbox]:checked ~ .toggle-button-icon:before{transform:translate(-10%, 100%) rotate(45deg);width:13.66667px;}
+.toggle-button-aava input[type=checkbox]:checked ~ .toggle-button-icon:after{transform:translate(30%) rotate(-45deg);}
+.toggle-button-aava .toggle-button-icon{position:absolute;left:0;top:0;height:40px;width:40px;}
+.toggle-button-aava .toggle-button-icon:before, .toggle-button-aava .toggle-button-icon:after{height:3px;border-radius:3px;background:#fff;box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);}
+.toggle-button-aava .toggle-button-icon:before{width:20px;transform:rotate(45deg);}
+.toggle-button-aava .toggle-button-icon:after{width:20px;transform:rotate(-45deg);}
+</style>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{ entry_price_points }}</label>
+            <div class="col-sm-4">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_customer_group }}</td>
+                      <td class="text-right">{{ entry_rewards }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for customer_group in customer_groups %}
+                      <tr>
+                        <td class="text-left">{{ customer_group.name }}</td>
+                        <td class="text-right"><input type="text" name="module_easy_reward_points[{{ customer_group.customer_group_id }}]" value="{{ module_easy_reward_points[customer_group.customer_group_id] is defined ? module_easy_reward_points[customer_group.customer_group_id] }}" class="form-control"/></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="text-info">{{ help_price_points }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{ entry_reward_points }}</label>
+            <div class="col-sm-4">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_customer_group }}</td>
+                      <td class="text-right">{{ entry_rewards }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for customer_group in customer_groups %}
+                      <tr>
+                        <td class="text-left">{{ customer_group.name }}</td>
+                        <td class="text-right"><input type="text" name="module_easy_reward_rewards[{{ customer_group.customer_group_id }}]" value="{{ module_easy_reward_rewards[customer_group.customer_group_id] is defined ? module_easy_reward_rewards[customer_group.customer_group_id] }}" class="form-control"/></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="text-info">{{ help_reward_points }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="input-minimum">{{ entry_minimum }}</label>
+            <div class="col-sm-4">
+              <input type="text" name="module_easy_reward_minimum" value="{{ module_easy_reward_minimum }}" id="input-minimum" class="form-control" placeholder="{{ entry_minimum }}" />
+            </div>
+            <div class="col-sm-4">
+              <p class="text-info">{{ help_minimum }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="input-maximum">{{ entry_maximum }}</label>
+            <div class="col-sm-4">
+              <input type="text" name="module_easy_reward_maximum" value="{{ module_easy_reward_maximum }}" id="input-maximum" class="form-control" placeholder="{{ entry_maximum }}" />
+            </div>
+            <div class="col-sm-4">
+              <p class="text-info">{{ help_maximum }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="input-auto">{{ entry_auto }}</label>
+            <div class="col-sm-4">
+              <div class="toggle-button toggle-button-aava">
+                <input name="module_easy_reward_auto" id="input-auto" type="checkbox" value="1" {% if module_easy_reward_auto %}checked="checked"{% endif %} />
+                <label for="input-auto" data-on-text="{{ text_enabled }}" data-off-text="{{ text_disabled }}"></label>
+                <div class="toggle-button-icon"></div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="text-info">{{ help_auto }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="input-notify">{{ entry_notify }}</label>
+            <div class="col-sm-4">
+              <div class="toggle-button toggle-button-aava">
+                <input name="module_easy_reward_notify" id="input-notify" type="checkbox" value="1" {% if module_easy_reward_notify %}checked="checked"{% endif %} />
+                <label for="input-notify" data-on-text="{{ text_enabled }}" data-off-text="{{ text_disabled }}"></label>
+                <div class="toggle-button-icon"></div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="text-info">{{ help_notify }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-4">
+              <div class="toggle-button toggle-button-aava">
+                <input name="module_easy_reward_status" id="input-status" type="checkbox" value="1" {% if module_easy_reward_status %}checked="checked"{% endif %} />
+                <label for="input-status" data-on-text="{{ text_enabled }}" data-off-text="{{ text_disabled }}"></label>
+                <div class="toggle-button-icon"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

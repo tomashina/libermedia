@@ -1,0 +1,129 @@
+{{ header }}
+
+<script>
+var user_token = '{{ user_token }}',
+    iAnalyticsMinDate = '{{ iAnalyticsMinDate }}',
+    iAnalyticsColors = ['019FD7','9ECC3C','FFDB1A','CC3C3C','9D9D9D','FF9900','242858'];
+
+iAnalytics = {
+    charts: new Object()
+};
+Chart.defaults.global.responsive = true;
+Chart.defaults.global.animationSteps = 30;
+</script>
+
+{{ column_left }}
+<div id="content" class="iAnalytics">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    {{ unlicensedHtml }}
+
+    {% if error_warning %}
+      <div class="alert alert-danger autoSlideUp"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    {% if success %}
+      <div class="alert alert-success autoSlideUp"><i class="fa fa-check-circle"></i> {{ success }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      <script>$('.autoSlideUp').delay(3000).fadeOut(600, function() { $(this).show().css({'visibility':'hidden'}); }).slideUp(600);</script>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span style="vertical-align:middle;font-weight:bold;">{{ text_module_settings }}</span>
+        </h3>
+       <!-- <div class="storeSwitcherWidget">
+          <div class="form-group" style="padding:0px;">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">&nbsp;{{ store.name }}{% if store_id == 0 %}{{ '<strong>' ~ text_default ~ '</strong>' }}{% endif %}&nbsp;<span class="caret"></span><span class="sr-only">{{ text_toggle_dropdown }}</span></button>
+            <ul class="dropdown-menu" role="menu">
+              {% for st in stores %}
+                <li><a href="index.php?route=extension/module/{{ moduleName }}&store_id={{ st.store_id }}&user_token={{ user_token }}">{{ st.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form">
+          <div class="tabbable">
+            <div class="tab-navigation form-inline">
+              <ul class="nav nav-tabs mainMenuTabs" id="mainTabs">
+                <li class="active"><a href="#dashboard1" data-toggle="tab">{{ text_dashboard }}</a></li>
+                <li><a href="#presale" data-toggle="tab" data-chart="search_queries">{{ text_presale }}</a></li>
+                <li><a href="#aftersale" data-toggle="tab">{{ text_aftersale }}</a></li>
+                <li><a href="#visitors" data-toggle="tab">{{ text_visitors }}</a></li>
+              <!--    <li><a href="#controlpanel" data-toggle="tab">{{ text_settings }}</a></li>
+              <li><a href="#isense_support" data-toggle="tab">{{ text_support }}</a></li> -->
+              </ul>
+              <div class="tab-buttons">
+                <div class="btn-group">
+               <!--   <button type="button" onClick="javascript:void(0)" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Data&nbsp; <span class="caret"></span>
+                  </button>
+
+                  <ul class="dropdown-menu" role="menu">
+                    {% if ianalytics_isrun %}
+                      <li><a href="javascript:void(0)" onclick="document.location='index.php?route={{ modulePath }}/pausegatheringdata&store_id={{ store_id }}&user_token={{ user_token }}'"><i class="fa fa-pause"></i>&nbsp;{{ text_pause_data }}</a></li>
+                    {% else %}
+                      <li><a href="javascript:void(0)" onclick="document.location='index.php?route={{ modulePath }}/resumegatheringdata&store_id={{ store_id }}&user_token={{ user_token }}'"><i class="fa fa-play"></i>&nbsp;{{ text_resume_data }}</a></li>
+                    {% endif %}
+                    <li class="divider"></li>
+                    <li><a onclick="return confirm('Are you sure you wish to delete all analytics data?');" href="index.php?route={{ modulePath }}/deleteanalyticsdata&store_id={{ store_id }}&user_token={{ user_token }}"><i class="fa fa-trash"></i>&nbsp;{{ text_clear_all_data }}</a></li>
+                  </ul>
+                </div> -->
+                <button type="submit" class="btn btn-success save-changes"><i class="fa fa-check"></i>&nbsp;{{ text_save_changes }}</button>
+                <a onclick="location='{{ cancel }}'" class="btn btn-warning"><i class="fa fa-times"></i>&nbsp;{{ text_cancel }}</a>
+              </div>
+            </div><!-- /.tab-navigation -->
+
+            <div class="tab-content">
+              <div id="dashboard1" class="tab-pane active">{{ tab_dashboard }}</div>
+              <div id="presale" class="tab-pane">{{ tab_presale }}</div>
+              <div id="aftersale" class="tab-pane">{{ tab_aftersale }}</div>
+              <div id="visitors" class="tab-pane">{{ tab_visitors }}</div>
+              <div id="controlpanel" class="tab-pane">{{ tab_controlpanel }}</div>
+              <div id="isense_support" class="tab-pane">{{ tab_support }}</div>
+            </div> <!-- /.tab-content -->
+          </div><!-- /.tabbable -->
+        </form>
+      </div>
+    </div><!-- /.panel -->
+
+  </div>
+</div>
+<script>
+function showHideStuff($typeSelector, $toggleArea, $selectStatus) {
+  if ($typeSelector.val() === $selectStatus) {
+    $toggleArea.show();
+  } else {
+    $toggleArea.hide();
+  }
+
+  $typeSelector.change(function() {
+    if ($typeSelector.val() === $selectStatus) {
+      $toggleArea.show(300);
+    } else {
+      $toggleArea.hide(300);
+    }
+  });
+}
+
+$(function() {
+  showHideStuff($('#GA_ecommerce'), $('.custom_settings'), 'yes');
+});
+</script>
+{{ footer }}

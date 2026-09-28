@@ -1,0 +1,316 @@
+# 1.To use URL Alias you need to be running apache with mod_rewrite enabled.
+
+# 2. In your opencart directory rename htaccess.txt to .htaccess.
+
+# For any support issues please visit: http://www.opencart.com
+
+Options +FollowSymlinks
+
+# Prevent Directory listing
+Options -Indexes
+
+# Prevent Direct Access to files
+<FilesMatch "(?i)((\.tpl|\.twig|\.ini|\.log|(?<!robots)\.txt))">
+ Require all denied
+## For apache 2.2 and older, replace "Require all denied" with these two lines :
+# Order deny,allow
+# Deny from all
+</FilesMatch>
+
+# SEO URL Settings
+RewriteEngine On
+# If your opencart installation does not run on the main web folder make sure you folder it does run in ie. / becomes /shop/
+
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteCond %{HTTP_HOST} !\.test$ [NC]
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+#RewriteCond %{HTTPS} off
+#RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+
+
+
+RewriteRule ^sitemap-index.xml$ index.php?route=extension/feed/boost_sitemap [L]
+RewriteRule ^googlebase.xml$ index.php?route=extension/feed/google_base [L]
+RewriteRule ^system/storage/(.*) index.php?route=error/not_found [L]
+RewriteRule ^kontakt index.php?route=information/contact [L]
+RewriteRule ^brandovi index.php?route=product/manufacturer [L]
+RewriteRule ^akcije index.php?route=product/special [L]
+
+RewriteRule ^shop/proizvodia/16/Didaktičke-igračke https://www.liber-media.hr/didakticke-igracke  [L,R=301]
+RewriteRule ^shop/akcije https://www.liber-media.hr/akcije  [L,R=301]
+RewriteRule ^shop/proizvodiaa/208/Školske-torbe https://www.liber-media.hr/skolske-torbe-i-ruksaci  [L,R=301]
+RewriteRule ^onama.php https://www.liber-media.hr/o-nama  [L,R=301]
+RewriteRule ^shop/proizvodiaa/206/Ruksaci-za-vrtić https://www.liber-media.hr/skolske-torbe-i-ruksaci/ruksaci-za-vrtic-i-oprema  [L,R=301]
+RewriteRule ^uvjeti.php https://www.liber-media.hr/opci-uvjeti-koristenja  [L,R=301]
+RewriteRule ^shop/proizvodiaa/210/Pernice https://www.liber-media.hr/skolske-torbe-i-ruksaci/pernice-za-skolu  [L,R=301]
+RewriteRule ^shop/proizvodiaa/105/Kazališta,-kuhinje-i-tržnice https://www.liber-media.hr/didakticke-igracke/djecja-kuhinja-i-kazaliste  [L,R=301]
+RewriteRule ^shop/proizvodiaa/155/Glazbeni-centar https://www.liber-media.hr/didakticke-igracke/glazbeni-instrumenti  [L,R=301]
+RewriteRule ^shop/proizvodia/188/Školske-torbe,-ruksaci-i-oprema https://www.liber-media.hr/skolske-torbe-i-ruksaci  [L,R=301]
+RewriteRule ^shop/proizvodia/1/r https://www.liber-media.hr/skolski-pribor  [L,R=301]
+RewriteRule ^shop/proizvodiaa/106	https://www.liber-media.hr/didakticke-igracke/djecja-kuhinja-i-kazaliste [L,R=301]
+RewriteRule ^shop/proizvod/Edukativna-igra---Nau%c4%8di-zbrajati/1011	https://www.liber-media.hr/didakticke-igracke/matematicke-igre/edukativna-igra-nau%C4%8Di-zbrajati [L,R=301]
+RewriteRule ^shop/proizvodiaa/139/Edukativne-igre-za-djecu	https://www.liber-media.hr/didakticke-igracke [L,R=301]
+RewriteRule ^shop/proizvodia/123/r	https://www.liber-media.hr/didakticke-igracke/didakticke-igre-za-djecu [L,R=301]
+RewriteRule ^shop/proizvodiaa/182/Boja-za-prste	https://www.liber-media.hr/skolski-pribor/boje-za-lice-i-prste [L,R=301]
+RewriteRule ^shop/proizvod/Retro-kuhinja-Vilac/707	https://www.liber-media.hr/didakticke-igracke/djecja-kuhinja-i-kazaliste/retro-kuhinja-vilac [L,R=301]
+RewriteRule ^shop/proizvodiaa/220/Roboti-i-konstrukcije	https://www.liber-media.hr/robot-i-stem-igracke [L,R=301]
+RewriteRule ^shop/proizvod/Labirint-za-balansiranje/654	https://www.liber-media.hr/robot-i-stem-igracke/labirint-za-balansiranje [L,R=301]
+RewriteRule ^shop/proizvod/Dru%c5%a1tvena-igra---Lete%c4%87e-%c5%beabice/1101	https://www.liber-media.hr/didakticke-igracke/drustvene-igre [L,R=301]
+RewriteRule ^shop/proizvod/Talkie---Walkie/2631	https://www.liber-media.hr/robot-i-stem-igracke/talkie-walkie [L,R=301]
+RewriteRule ^shop/proizvod/Set-pribora-za-jelo/904	https://www.liber-media.hr/didakticke-igracke/djecja-kuhinja-i-kazaliste [L,R=301]
+RewriteRule ^shop/proizvodiaa/174	https://www.liber-media.hr/kocke_za_djecu [L,R=301]
+RewriteRule ^blog/sto-je-tablica-mnozenja	https://www.liber-media.hr/tablica-mnozenja [L,R=301]
+RewriteRule ^blog/kako-napraviti-domaci-plastelin	https://www.liber-media.hr/domaci-plastelin [L,R=301]
+RewriteCond %{REQUEST_URI} ^/blog/(.+)$
+
+RewriteRule . /%1 [L]
+####################################### OPENCART REST ADMIN API START #######################################
+#Sets the HTTP_AUTHORIZATION header removed by apache
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#REST ADMIN API SECURITY
+RewriteRule ^api/rest_admin/oauth2/token/?([a-zA-Z0-9_]+) index.php?route=rest/admin_security/gettoken&grant_type=$1  [L]
+RewriteRule ^api/rest_admin/oauth2/token index.php?route=rest/admin_security/gettoken  [L]
+RewriteRule ^api/rest_admin/login index.php?route=rest/admin_security/login  [L]
+RewriteRule ^api/rest_admin/logout index.php?route=rest/admin_security/logout  [L]
+RewriteRule ^api/rest_admin/forgotten index.php?route=rest/admin_security/forgotten  [L]
+RewriteRule ^api/rest_admin/reset index.php?route=rest/admin_security/reset  [L]
+#REST API database tables checksum
+RewriteRule ^api/rest_admin/checksums index.php?route=rest/helpers/getchecksum  [L]
+#REST API UTC and server time offset in seconds
+RewriteRule ^api/rest_admin/utc_offset index.php?route=rest/helpers/utc_offset  [L]
+#REST API get product classes
+RewriteRule ^api/rest_admin/init/?([a-zA-Z0-9_]+) index.php?route=rest/helpers/productclasses&type=$1  [L]
+RewriteRule ^api/rest_admin/init index.php?route=rest/helpers/productclasses  [L]
+#REST API selected country
+RewriteRule ^api/rest_admin/countries/?([0-9]+) index.php?route=rest/helpers/countries&id=$1  [L]
+#REST API countries
+RewriteRule ^api/rest_admin/countries index.php?route=rest/helpers/countries [L]
+###################################### Custom endpoints #######################################
+RewriteRule ^api/rest_admin/manufacturers/getmanufactureridbyname/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/manufacturer_admin/manufactureridbyname&name=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/categories/getcategoryidbyname/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/category_admin/categoryidbyname&name=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/products/getproductidbysku/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/product_admin/getproductidbyparameter&p=sku&value=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/products/getproductidbymodel/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/product_admin/getproductidbyparameter&p=model&value=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/products/getproductidbyean/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/product_admin/getproductidbyparameter&p=ean&value=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/products/getproductidbyisbn/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/product_admin/getproductidbyparameter&p=isbn&value=$1 [B,NC,L]
+####################################### PRODUCT #######################################
+RewriteRule ^api/rest_admin/addproductandwithotherinfos index.php?route=rest/product_admin/addproductandwithotherinfos  [L]
+RewriteRule ^api/rest_admin/bulk_products index.php?route=rest/product_admin/bulkproducts  [L]
+RewriteRule ^api/rest_admin/products/?([0-9]+)/images/other/?([0-9]+) index.php?route=rest/product_admin/productimages&id=$1&other=1&sort_order=$2  [L]
+RewriteRule ^api/rest_admin/products/?([0-9]+)/images index.php?route=rest/product_admin/productimages&id=$1  [L]
+RewriteRule ^api/rest_admin/products/search/?([-a-zA-Z0-9_&\|\s/.]+)/sort/?([a-zA-Z]+)/order/?([a-zA-Z]+) index.php?route=rest/product_admin/products&search=$1&sort=$2&order=$3 [B,NC,L]
+RewriteRule ^api/rest_admin/products/search/?([-a-zA-Z0-9_&\|\s/.]+)/sort/?([a-zA-Z]+) index.php?route=rest/product_admin/products&search=$1&sort=$2 [B,NC,L]
+RewriteRule ^api/rest_admin/products/category/?([0-9]+)/sort/?([a-zA-Z]+)/order/?([a-zA-Z]+) index.php?route=rest/product_admin/products&category=$1&sort=$2&order=$3  [L]
+RewriteRule ^api/rest_admin/products/category/?([0-9]+)/sort/?([a-zA-Z]+) index.php?route=rest/product_admin/products&category=$1&sort=$2  [L]
+RewriteRule ^api/rest_admin/products/sort/?([a-zA-Z]+)/order/?([a-zA-Z]+) index.php?route=rest/product_admin/products&sort=$1&order=$2  [L]
+RewriteRule ^api/rest_admin/products/sort/?([a-zA-Z]+) index.php?route=rest/product_admin/products&sort=$1  [L]
+RewriteRule ^api/rest_admin/products/search/?([-a-zA-Z0-9_&\|\s/.]+)/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/product_admin/products&search=$1&limit=$2&page=$3 [B,NC,L]
+RewriteRule ^api/rest_admin/products/search/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/product_admin/products&search=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/products/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/product_admin/products&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/products/category/?([0-9]+)/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/product_admin/products&category=$1&limit=$2&page=$3  [L]
+RewriteRule ^api/rest_admin/products/category/?([0-9]+) index.php?route=rest/product_admin/products&category=$1  [L]
+RewriteRule ^api/rest_admin/products/quantitybysku index.php?route=rest/product_admin/productquantitybysku  [L]
+RewriteRule ^api/rest_admin/products/quantity index.php?route=rest/product_admin/productquantity  [L]
+RewriteRule ^api/rest_admin/products/getproductbysku/?([-a-zA-Z0-9_&\|\s/.]+) index.php?route=rest/product_admin/getproductbysku&sku=$1 [B,NC,L]
+RewriteRule ^api/rest_admin/products/?([0-9]+) index.php?route=rest/product_admin/products&id=$1  [L]
+RewriteRule ^api/rest_admin/products/category/?([0-9]+)/sort/?([a-zA-Z]+) index.php?route=rest/product_admin/products&category=$1&sort=$2  [L]
+RewriteRule ^api/rest_admin/products/category/?([0-9]+)/sort/?([a-zA-Z]+)/order/?([a-zA-Z]+) index.php?route=rest/product_admin/products&category=$1&sort=$2&order=$3  [L]
+RewriteRule ^api/rest_admin/products index.php?route=rest/product_admin/products  [L]
+RewriteRule ^api/rest_admin/featured/limit/?([0-9]+) index.php?route=rest/product_admin/featured&limit=$1  [L]
+RewriteRule ^api/rest_admin/featured/?([0-9]+) index.php?route=rest/product_admin/featured&id=$1  [L]
+RewriteRule ^api/rest_admin/featured index.php?route=rest/product_admin/featured  [L]
+RewriteRule ^api/rest_admin/latestwithdetails/limit/?([0-9]+) index.php?route=rest/product_admin/latestwithdetails&limit=$1  [L]
+RewriteRule ^api/rest_admin/latestwithdetails index.php?route=rest/product_admin/latestwithdetails  [L]
+RewriteRule ^api/rest_admin/latest/limit/?([0-9]+) index.php?route=rest/product_admin/latest&limit=$1  [L]
+RewriteRule ^api/rest_admin/latest index.php?route=rest/product_admin/latest  [L]
+####################################### CATEGORY #######################################
+RewriteRule ^api/rest_admin/categories/?([0-9]+)/images index.php?route=rest/category_admin/categoryimages&id=$1  [L]
+RewriteRule ^api/rest_admin/categories/parent/?([0-9]+)/level/?([0-9]+) index.php?route=rest/category_admin/category&parent=$1&level=$2  [L]
+RewriteRule ^api/rest_admin/categories/level/?([0-9]+) index.php?route=rest/category_admin/category&level=$1  [L]
+RewriteRule ^api/rest_admin/categories/parent/?([0-9]+) index.php?route=rest/category_admin/category&parent=$1  [L]
+RewriteRule ^api/rest_admin/categories/?([0-9]+) index.php?route=rest/category_admin/category&id=$1  [L]
+RewriteRule ^api/rest_admin/categories/extended/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/category_admin/category&limit=$1&page=$2&extended  [L]
+RewriteRule ^api/rest_admin/categories index.php?route=rest/category_admin/category [L]
+###################################### MANUFACTURER #######################################
+RewriteRule ^api/rest_admin/manufacturers/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/manufacturer_admin/manufacturer&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/manufacturers/?([0-9]+)/images index.php?route=rest/manufacturer_admin/manufacturerimages&id=$1  [L]
+RewriteRule ^api/rest_admin/manufacturers/?([0-9]+) index.php?route=rest/manufacturer_admin/manufacturer&id=$1  [L]
+RewriteRule ^api/rest_admin/manufacturers index.php?route=rest/manufacturer_admin/manufacturer  [L]
+###################################### ORDERS #######################################
+RewriteRule ^api/rest_admin/orderhistory/?([0-9]+) index.php?route=rest/order_admin/orderhistory&id=$1  [L]
+RewriteRule ^api/rest_admin/orders/details/added_from/([^/]+)/added_to/([^/]+)/?$ index.php?route=rest/order_admin/listorderswithdetails&filter_date_added_from=$1&filter_date_added_to=$2 [L]
+RewriteRule ^api/rest_admin/orders/details/added_from/([^/]+)/?$ index.php?route=rest/order_admin/listorderswithdetails&filter_date_added_from=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/added_on/([^/]+)/?$ index.php?route=rest/order_admin/listorderswithdetails&filter_date_added_on=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/modified_from/([^/]+)/modified_to/([^/]+)/?$ index.php?route=rest/order_admin/listorderswithdetails&filter_date_modified_from=$1&filter_date_modified_to=$2 [L]
+RewriteRule ^api/rest_admin/orders/details/modified_from/([^/]+)/?$ index.php?route=rest/order_admin/listorderswithdetails&filter_date_modified_from=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/modified_on/([^/]+)/?$ index.php?route=rest/order_admin/listorderswithdetails&filter_date_modified_on=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/status/([0-9,?:,]+) index.php?route=rest/order_admin/listorderswithdetails&filter_order_status_id=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/id_lower_than/([0-9]+) index.php?route=rest/order_admin/listorderswithdetails&filter_id_lower_than=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/id_larger_than/([0-9]+) index.php?route=rest/order_admin/listorderswithdetails&filter_id_larger_than=$1 [L]
+RewriteRule ^api/rest_admin/orders/details/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/order_admin/listorderswithdetails&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/orders/added_from/([^/]+)/added_to/([^/]+)/?$ index.php?route=rest/order_admin/orders&filter_date_added_from=$1&filter_date_added_to=$2 [L]
+RewriteRule ^api/rest_admin/orders/added_from/([^/]+)/?$ index.php?route=rest/order_admin/orders&filter_date_added_from=$1 [L]
+RewriteRule ^api/rest_admin/orders/added_on/([^/]+)/?$ index.php?route=rest/order_admin/orders&filter_date_added_on=$1 [L]
+RewriteRule ^api/rest_admin/orders/modified_from/([^/]+)/modified_to/([^/]+)/?$ index.php?route=rest/order_admin/orders&filter_date_modified_from=$1&filter_date_modified_to=$2 [L]
+RewriteRule ^api/rest_admin/orders/modified_from/([^/]+)/?$ index.php?route=rest/order_admin/orders&filter_date_modified_from=$1 [L]
+RewriteRule ^api/rest_admin/orders/modified_on/([^/]+)/?$ index.php?route=rest/order_admin/orders&filter_date_modified_on=$1 [L]
+RewriteRule ^api/rest_admin/orders/status/([0-9,?:,]+) index.php?route=rest/order_admin/orders&filter_order_status_id=$1 [L]
+RewriteRule ^api/rest_admin/orders/id_lower_than/([0-9]+) index.php?route=rest/order_admin/orders&filter_id_lower_than=$1 [L]
+RewriteRule ^api/rest_admin/orders/id_larger_than/([0-9]+) index.php?route=rest/order_admin/orders&filter_id_larger_than=$1 [L]
+RewriteRule ^api/rest_admin/orders/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/order_admin/orders&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/trackingnumber/?([0-9]+) index.php?route=rest/order_admin/trackingnumber&id=$1  [L]
+RewriteRule ^api/rest_admin/order_status/?([0-9]+) index.php?route=rest/order_admin/orderstatus&id=$1  [L]
+RewriteRule ^api/rest_admin/orders/details index.php?route=rest/order_admin/listorderswithdetails  [L]
+RewriteRule ^api/rest_admin/orders/invoice/?([0-9]+) index.php?route=rest/order_admin/invoice&id=$1  [L]
+RewriteRule ^api/rest_admin/orders/?([0-9]+) index.php?route=rest/order_admin/orders&id=$1  [L]
+RewriteRule ^api/rest_admin/orders/user/?([0-9]+) index.php?route=rest/order_admin/userorders&user=$1  [L]
+RewriteRule ^api/rest_admin/orders index.php?route=rest/order_admin/orders  [L]
+RewriteRule ^api/rest_admin/orderadmin index.php?route=rest/order_admin/order  [L]
+####################################### ATTRIBUTE GROUP #######################################
+RewriteRule ^api/rest_admin/attributegroups/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/attribute_group_admin/attributegroup&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/attributegroups/?([0-9]+) index.php?route=rest/attribute_group_admin/attributegroup&id=$1  [L]
+RewriteRule ^api/rest_admin/attributegroups index.php?route=rest/attribute_group_admin/attributegroup  [L]
+####################################### ATTRIBUTE #######################################
+RewriteRule ^api/rest_admin/attributes/group/?([0-9]+)/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/attribute_admin/attribute&group=$1&limit=$2&page=$3  [L]
+RewriteRule ^api/rest_admin/attributes/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/attribute_admin/attribute&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/attributes/?([0-9]+) index.php?route=rest/attribute_admin/attribute&id=$1  [L]
+RewriteRule ^api/rest_admin/attributes index.php?route=rest/attribute_admin/attribute  [L]
+###################################### OPTIONS #######################################
+RewriteRule ^api/rest_admin/product_options/?([0-9]+)/images index.php?route=rest/option_admin/optionimages&id=$1  [L]
+RewriteRule ^api/rest_admin/product_options/?([0-9]+) index.php?route=rest/option_admin/option&id=$1  [L]
+RewriteRule ^api/rest_admin/product_options/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/option_admin/option&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/product_options index.php?route=rest/option_admin/option  [L]
+####################################### OPTION VALUE #######################################
+RewriteRule ^api/rest_admin/optionvalue/?([0-9]+) index.php?route=rest/option_value_admin/optionvalue&id=$1  [L]
+RewriteRule ^api/rest_admin/optionvalue index.php?route=rest/option_value_admin/optionvalue  [L]
+##################################### CUSTOMER GROUPS #######################################
+RewriteRule ^api/rest_admin/customergroups/?([0-9]+) index.php?route=rest/customer_group_admin/customergroup&id=$1  [L]
+RewriteRule ^api/rest_admin/customergroups/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/customer_group_admin/customergroup&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/customergroups index.php?route=rest/customer_group_admin/customergroup  [L]
+#################################### CUSTOMER #######################################
+RewriteRule ^api/rest_admin/customers/added_from/([^/]+)/added_to/([^/]+)/?$ index.php?route=rest/customer_admin/customers&filter_date_added_from=$1&filter_date_added_to=$2 [L]
+RewriteRule ^api/rest_admin/customers/added_from/([^/]+)/?$ index.php?route=rest/customer_admin/customers&filter_date_added_from=$1 [L]
+RewriteRule ^api/rest_admin/customers/added_on/([^/]+)/?$ index.php?route=rest/customer_admin/customers&filter_date_added_on=$1 [L]
+RewriteRule ^api/rest_admin/customers/?([0-9]+) index.php?route=rest/customer_admin/customers&id=$1  [L]
+RewriteRule ^api/rest_admin/customers/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/customer_admin/customers&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/customers/email/?([-a-zA-Z0-9@.]+) index.php?route=rest/customer_admin/getcustomerbyemail&email=$1  [L]
+RewriteRule ^api/rest_admin/customers/in_group/([^/]+)/?$ index.php?route=rest/customer_admin/customers&filter_in_group=$1 [L]
+RewriteRule ^api/rest_admin/customers index.php?route=rest/customer_admin/customers  [L]
+RewriteRule ^api/rest_admin/reward/?([0-9]+) index.php?route=rest/customer_admin/reward&id=$1  [L]
+RewriteRule ^api/rest_admin/transaction/?([0-9]+) index.php?route=rest/customer_admin/transactions&id=$1  [L]
+####################################### CUSTOM FIELD #######################################
+RewriteRule ^api/rest_admin/customfields/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/custom_field_admin/customfield&limit=$1&page=$2  [L]
+#################################### SHIPPING METHODS #######################################
+RewriteRule ^api/rest_admin/shippingmethods index.php?route=rest/shipping_method_admin/shippingmethods  [L]
+#################################### PAYMENT METHODS #######################################
+RewriteRule ^api/rest_admin/paymentmethods index.php?route=rest/payment_method_admin/paymentmethods  [L]
+###################################### COUPONS #######################################
+RewriteRule ^api/rest_admin/coupons/?([0-9]+) index.php?route=rest/coupon_admin/coupon&id=$1  [L]
+RewriteRule ^api/rest_admin/coupons/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/coupon_admin/coupon&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/coupons index.php?route=rest/coupon_admin/coupon  [L]
+###################################### STORE #######################################
+RewriteRule ^api/rest_admin/stores/copy/?([0-9]+) index.php?route=rest/store_admin/store&id=$1  [L]
+RewriteRule ^api/rest_admin/stores/?([0-9]+) index.php?route=rest/store_admin/store&id=$1  [L]
+RewriteRule ^api/rest_admin/stores/stats index.php?route=rest/store_admin/stats  [L]
+RewriteRule ^api/rest_admin/stores index.php?route=rest/store_admin/store  [L]
+###################################### VOUCHERS #######################################
+RewriteRule ^api/rest_admin/voucherthemes index.php?route=rest/voucher_admin/voucherthemes  [L]
+RewriteRule ^api/rest_admin/vouchers/?([0-9]+) index.php?route=rest/voucher_admin/vouchers&id=$1  [L]
+RewriteRule ^api/rest_admin/vouchers/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/voucher_admin/vouchers&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/vouchers index.php?route=rest/voucher_admin/vouchers  [L]
+###################################### FILTERS #######################################
+RewriteRule ^api/rest_admin/product_filters/groups/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/filter_admin/groups&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/product_filters/filters/group/?([0-9]+) index.php?route=rest/filter_admin/filters&filter_group=$1  [L]
+RewriteRule ^api/rest_admin/product_filters/filters/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/filter_admin/filters&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/product_filters/filters index.php?route=rest/filter_admin/filters  [L]
+RewriteRule ^api/rest_admin/product_filters/groups index.php?route=rest/filter_admin/groups  [L]
+###################################### RETURNS #######################################
+RewriteRule ^api/rest_admin/returns/history/?([0-9]+) index.php?route=rest/return_admin/history&id=$1  [L]
+RewriteRule ^api/rest_admin/returns/filter_return_id/?([0-9]+) index.php?route=rest/return_admin/returns&filter_return_id=$1  [L]
+RewriteRule ^api/rest_admin/returns/filter_order_id/?([0-9]+) index.php?route=rest/return_admin/returns&filter_order_id=$1  [L]
+RewriteRule ^api/rest_admin/returns/limit/?([0-9]+)/page/?([0-9]+) index.php?route=rest/return_admin/returns&limit=$1&page=$2  [L]
+RewriteRule ^api/rest_admin/returns/?([0-9]+) index.php?route=rest/return_admin/returns&id=$1  [L]
+RewriteRule ^api/rest_admin/returns index.php?route=rest/return_admin/returns  [L]
+################################# OPENCART REST ADMIN API END ###############################
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
+RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
+
+### Additional Settings that may need to be enabled for some servers
+### Uncomment the commands by removing the # sign in front of it.
+### If you get an "Internal Server Error 500" after enabling any of the following settings, restore the # as this means your host doesn't allow that.
+
+# 1. If your cart only allows you to add one item at a time, it is possible register_globals is on. This may work to disable it:
+# php_flag register_globals off
+
+# 2. If your cart has magic quotes enabled, This may work to disable it:
+# php_flag magic_quotes_gpc Off
+
+# 3. Set max upload file size. Most hosts will limit this and not allow it to be overridden but you can try
+# php_value upload_max_filesize 999M
+
+# 4. set max post size. uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
+# php_value post_max_size 999M
+
+# 5. set max time script can take. uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
+# php_value max_execution_time 200
+
+# 6. set max time for input to be recieved. Uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
+# php_value max_input_time 200
+
+# 7. disable open_basedir limitations
+# php_admin_value open_basedir none
+
+# Enable Gzip Compression
+AddOutputFilterByType DEFLATE text/text
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+# Leverage Browser Caching
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/gif "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/pdf "access plus 1 year"
+ExpiresByType text/x-javascript "access plus 1 year"
+ExpiresByType application/x-shockwave-flash "access plus 1 month"
+ExpiresByType image/x-icon "access plus 1 year"
+ExpiresDefault "access plus 1 year"
+</IfModule>
+
+# Set up 5 week caching on commonly updated files
+<FilesMatch "\.(xml|txt|html|js|css)$">
+ExpiresDefault A3024000
+Header append Cache-Control "proxy-revalidate"
+</FilesMatch>
+
+# Force no caching for dynamic files
+<FilesMatch "\.(php|cgi|pl|htm)$">
+ExpiresActive Off
+Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
+Header set Pragma "no-cache"
+</FilesMatch>
+
+# Remove Browser Bugs
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+Header append Vary User-Agent
