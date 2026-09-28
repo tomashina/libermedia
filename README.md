@@ -16,4 +16,18 @@ For a new environment, copy `upload/config.example.php` to `upload/config.php` a
 
 ## Deployment
 
-Do not pull directly into the live document root. Prepare a separate release, attach the existing production configuration, media and storage, verify the release, and then switch the active release atomically. Keep the previous release available for immediate rollback.
+The current Hetzner Level 4 package does not provide an interactive SSH shell, so deployment uses SFTP instead of a server-side `git pull`. Copy `.deploy.env.example` to `.deploy.env` and adjust the private-key path. Preview a commit range first:
+
+```sh
+php tools/deploy-sftp.php --from=<previous-commit> --to=<new-commit>
+```
+
+Apply the same range only after reviewing the preview:
+
+```sh
+php tools/deploy-sftp.php --from=<previous-commit> --to=<new-commit> --apply
+```
+
+Only deployable application files are transferred. Production configuration, images, database data, logs and sessions are never touched. Each changed file is uploaded under a temporary name and atomically renamed into place. Existing remote files are downloaded into `.deploy-backups/` before deployment, and an unsuccessful health check triggers an automatic rollback.
+
+If the hosting package is later upgraded to one with SSH access, prefer timestamped release directories with a shared production configuration/media layer and an atomic `current` symlink switch.

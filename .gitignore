@@ -7,6 +7,8 @@ Thumbs.db
 /.env
 /.env.*
 !/.env.example
+/.deploy.env
+/.deploy-backups/
 
 # Environment-specific OpenCart configuration (contains credentials and paths)
 /upload/config.php
