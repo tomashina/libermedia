@@ -47,7 +47,7 @@ class ControllerCommonHeader extends Controller {
 
 
 
-		if($this->request->get['route'] =='') {
+		if (empty($this->request->get['route'])) {
 			$data['is_home'] = 1;
 		}
 

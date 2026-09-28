@@ -146,12 +146,10 @@
         {% endif %}
       </ul>
 
-        {% if special %}
-              <p>Najniža  cijena posljednih 30 dana: {{ price }} </p>
-
+        {% if anchor_price_text %}
+        <div class="anchor-price anchor-price-detail">{{ anchor_price_text|escape }}</div>
         {% endif %}
 
-    
       {% if price and tax %}
       <p class="info p-tax"><b>{{ text_tax }}</b> <span class="live-price-tax">{{ tax }}</span></p>
       {% endif %}

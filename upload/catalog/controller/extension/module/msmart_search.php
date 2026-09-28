@@ -2,6 +2,7 @@
 class ControllerExtensionModuleMsmartSearch extends Controller {
 	
 	private $_name = 'msmart_search';
+	private $_anchorPriceText = array();
 	
 	public function savephrase(){
 		$this->load->model('extension/module/msmart_search');
@@ -9,6 +10,41 @@ class ControllerExtensionModuleMsmartSearch extends Controller {
 		if( null != ( $phrase = isset( $this->request->get['phrase'] ) ? $this->request->get['phrase'] : null ) ) {
 			$this->model_extension_module_msmart_search->addToDatabase($phrase);
 		}
+	}
+
+	private function prepareAnchorPrices( $products ) {
+		$product_ids = array();
+
+		foreach( (array)$products as $product ) {
+			$product_id = isset($product['product_id']) ? (int)$product['product_id'] : 0;
+
+			if( $product_id > 0 && ! array_key_exists($product_id, $this->_anchorPriceText) ) {
+				$product_ids[$product_id] = $product_id;
+				$this->_anchorPriceText[$product_id] = '';
+			}
+		}
+
+		if( ! $product_ids || ! $this->config->get('module_anchor_price_status') ) {
+			return;
+		}
+
+		$this->load->model('extension/module/anchor_price');
+		$records = $this->model_extension_module_anchor_price->getByProductIds($product_ids);
+
+		foreach( $records as $product_id => $record ) {
+			$display = $this->model_extension_module_anchor_price->getDisplayData($record);
+			$this->_anchorPriceText[(int)$product_id] = isset($display['anchor_price_text']) ? $display['anchor_price_text'] : '';
+		}
+	}
+
+	private function getAnchorPriceText( $product_id ) {
+		$product_id = (int)$product_id;
+
+		if( ! array_key_exists($product_id, $this->_anchorPriceText) ) {
+			$this->prepareAnchorPrices(array(array('product_id' => $product_id)));
+		}
+
+		return isset($this->_anchorPriceText[$product_id]) ? $this->_anchorPriceText[$product_id] : '';
 	}
 
 	private function prepareProduct( $product ) {
@@ -78,6 +114,7 @@ class ControllerExtensionModuleMsmartSearch extends Controller {
 			'img_h' => $height,
 			'price' => empty( $config['show_price'] ) ? null : $price,
 			'special' => empty( $config['show_price'] ) ? null : $special,
+			'anchor_text' => empty( $config['show_price'] ) ? '' : $this->getAnchorPriceText($product['product_id']),
 			'manufacturer' => empty( $config['show_manufacturer'] ) ? null : $product['manufacturer'],
 			'model' => empty( $config['show_model'] ) ? null : $product['model'],
 		);
@@ -195,6 +232,8 @@ class ControllerExtensionModuleMsmartSearch extends Controller {
 					'not_save_in_search_history'	=> true
 				))->getProducts();
 
+				$this->prepareAnchorPrices($products);
+
 				foreach( $products as $product ) {
 					if( count( $response['results'] ) < $limit ) {					
 						$response['results'][] = $this->prepareProduct( $product );
@@ -210,13 +249,24 @@ class ControllerExtensionModuleMsmartSearch extends Controller {
 					$recommended_data = $this->config->get( 'msmart_search_recommended' );
 					if(!empty($recommended_data['recommended_in_live_search'])){
 						$this->load->model('catalog/product');
+						$recommended_products = array();
+
 						foreach($recommended_data['recommended_products'] as $product_id) {
-							$product_info = $this->model_catalog_product->getProduct($product_id);
-							if ($product_info) {
-								if( count( $response['results'] ) < $limit ) {					
-									$response['results'][] = $this->prepareProduct( $product_info );
-								}
+							if( count( $recommended_products ) >= $limit ) {
+								break;
 							}
+
+							$product_info = $this->model_catalog_product->getProduct($product_id);
+
+							if ($product_info) {
+								$recommended_products[] = $product_info;
+							}
+						}
+
+						$this->prepareAnchorPrices($recommended_products);
+
+						foreach( $recommended_products as $product_info ) {
+							$response['results'][] = $this->prepareProduct( $product_info );
 						}
 						
 						/* @var $response array upg */
@@ -240,12 +290,16 @@ class ControllerExtensionModuleMsmartSearch extends Controller {
 						continue;
 					}
 					
-					foreach( Msmart_Search::make( $this )->reset()->filterData(array(
+					$extra_products = Msmart_Search::make( $this )->reset()->filterData(array(
 						'limit'							=> $limit,
 						'start'							=> 0,
 						'filter_name'					=> $extra_phrase,
 						'not_save_in_search_history'	=> true
-					))->getProducts() as $product ) {
+					))->getProducts();
+
+					$this->prepareAnchorPrices($extra_products);
+
+					foreach( $extra_products as $product ) {
 						$response['results'][] = array_replace( $this->prepareProduct( $product ), array(
 							'extra_phrase' => $extra_phrase,
 						));

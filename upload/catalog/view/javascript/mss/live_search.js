@@ -74,6 +74,10 @@ jQuery(function(){
 
 		return dec.replace(/\0+$/, '');
 	};
+
+	function escape_html(value) {
+		return $('<div>').text(value || '').html();
+	}
 	
 	var $input = $(config.input_selector).typeahead({
 		hint: true,
@@ -118,9 +122,10 @@ jQuery(function(){
 			}
 		}),
 		templates: {
-			suggestion: function( data ){
+			 suggestion: function( data ){
 				var out = '',
-					html = '';
+					html = '',
+					anchor_row = '';
 				
 				if( mode == 'standard' ) {
 					if( data.img ) {
@@ -164,7 +169,11 @@ jQuery(function(){
 						out += '</td>';
 					}
 
-					return '<div data-type="' + data.type + '"><table><tr>' + out + '</tr></table></div>';
+					if( data.anchor_text ) {
+						anchor_row = '<tr class="mss-anchor-row"><td colspan="3" style="padding-top:4px;text-align:right;"><small class="anchor-price" style="white-space:normal;">' + escape_html(data.anchor_text) + '</small></td></tr>';
+					}
+
+					return '<div data-type="' + data.type + '"><table><tr>' + out + '</tr>' + anchor_row + '</table></div>';
 				}
 				
 				out += '<div class="mssl-product-item-list col-xs-' + ( 12 / parseInt( config.product_columns ) ) + '">';
@@ -181,6 +190,10 @@ jQuery(function(){
 					
 					if( data.special ) {
 						out += '<span class="product-special-price">' + data.special + '</span>';
+					}
+
+					if( data.anchor_text ) {
+						out += '<span class="anchor-price">' + escape_html(data.anchor_text) + '</span>';
 					}
 				}
 				

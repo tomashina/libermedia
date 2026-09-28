@@ -74,7 +74,7 @@
 					$mssPath = $mssType == 'js' ? 'catalog/view/javascript/mss/' : 'catalog/view/theme/default/stylesheet/mss/';
 					
 					foreach( $mssFiles2 as $mssFile ) {
-						$this->document->{'add'.($mssType == 'js' ? 'Script' : 'Style')}( $mssPath . $mssFile . $mssVer . ( $mssVer && $mssFile == 'js_params.js' ? '_'.time() : '' ) );
+						$this->document->{'add'.($mssType == 'js' ? 'Script' : 'Style')}( $mssPath . $mssFile . $mssVer . ( $mssVer && $mssFile == 'js_params.js' ? '_'.time() : '' ) . ( $mssFile == 'live_search.min.js' ? ( $mssVer ? '_anchor-price-2' : '?v=anchor-price-2' ) : '' ) );
 					}
 				}
 				

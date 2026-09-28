@@ -16,6 +16,11 @@ class ControllerCommonFooter extends Controller {
 			}
 		}
 
+		$data['informations'][] = array(
+			'title' => (strpos((string)$this->config->get('config_language'), 'hr') === 0 ? 'Cjenici' : 'Price lists'),
+			'href'  => $this->url->link('information/price_list')
+		);
+
 		$data['contact'] = $this->url->link('information/contact');
 		$data['return'] = $this->url->link('account/return/add', '', true);
 		$data['sitemap'] = $this->url->link('information/sitemap');
@@ -29,7 +34,8 @@ class ControllerCommonFooter extends Controller {
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['newsletter'] = $this->url->link('account/newsletter', '', true);
 
-		$data['ruta'] = $this->url->link($this->request->get['route'], '', 'SSL');
+		$route = isset($this->request->get['route']) ? $this->request->get['route'] : 'common/home';
+		$data['ruta'] = $this->url->link($route, '', 'SSL');
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 
