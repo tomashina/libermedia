@@ -249,6 +249,14 @@ class ControllerProductProduct extends Controller {
 
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', '', true), $this->url->link('account/register', '', true));
+			$data['text_legal_guarantee'] = $this->language->get('text_legal_guarantee');
+			$data['text_withdrawal_14_days'] = $this->language->get('text_withdrawal_14_days');
+			$data['legal_guarantee_url'] = 'https://europa.eu/youreurope/jamstva_hr';
+			if ($this->config->get('config_checkout_id')) {
+				$data['withdrawal_url'] = $this->url->link('information/information', 'information_id=' . (int)$this->config->get('config_checkout_id'));
+			} else {
+				$data['withdrawal_url'] = $this->url->link('account/return/add', '', true);
+			}
 
 			$this->load->model('catalog/review');
 

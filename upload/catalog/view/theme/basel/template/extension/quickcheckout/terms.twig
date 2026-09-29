@@ -1,5 +1,8 @@
 <div id="payment" class="text-left" style="display:none;"></div>
 <div class="terms">
+  <div class="legal-guarantee-checkout">
+    <a href="{{ legal_guarantee_url }}" data-toggle="modal" data-target="#legal-guarantee-modal" aria-controls="legal-guarantee-modal" aria-haspopup="dialog"><i class="fa fa-shield" aria-hidden="true"></i>{{ text_legal_guarantee }}</a>
+  </div>
   <label>{% if text_agree %}
     {{ text_agree }}
     <input type="checkbox" name="agree" value="1" />

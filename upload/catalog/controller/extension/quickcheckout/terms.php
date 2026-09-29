@@ -3,6 +3,7 @@ class ControllerExtensionQuickCheckoutTerms extends Controller {
   	public function index() {
 		$data = $this->load->language('checkout/checkout');
 		$data = array_merge($data, $this->load->language('extension/quickcheckout/checkout'));
+		$data['legal_guarantee_url'] = 'https://europa.eu/youreurope/jamstva_hr';
 		
 		if ($this->config->get('config_checkout_id')) {
 			$this->load->model('catalog/information');

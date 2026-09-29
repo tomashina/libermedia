@@ -84,7 +84,12 @@ class ControllerMailOrder extends Controller {
 		$data['text_quantity'] = $language->get('text_quantity');
 		$data['text_price'] = $language->get('text_price');
 		$data['text_total'] = $language->get('text_total');
+		$data['text_legal_guarantee'] = $language->get('text_legal_guarantee');
+		$data['text_legal_guarantee_more'] = $language->get('text_legal_guarantee_more');
 		$data['text_footer'] = $language->get('text_footer');
+		$data['legal_guarantee_url'] = 'https://europa.eu/youreurope/jamstva_hr';
+		$data['legal_guarantee_notice_image'] = rtrim($order_info['store_url'], '/') . '/catalog/view/theme/basel/image/legal-guarantee/legal-guarantee-notice-hr.png';
+		$legal_guarantee_notice_file = DIR_APPLICATION . 'view/theme/basel/image/legal-guarantee/legal-guarantee-notice-hr.png';
 
 		$data['logo'] = $order_info['store_url'] . 'image/' . $this->config->get('config_logo');
 		$data['store_name'] = $order_info['store_name'];
@@ -293,6 +298,9 @@ class ControllerMailOrder extends Controller {
 		$mail->setSender(html_entity_decode($order_info['store_name'], ENT_QUOTES, 'UTF-8'));
 		$mail->setSubject(html_entity_decode(sprintf($language->get('text_subject'), $order_info['store_name'], $order_info['order_id']), ENT_QUOTES, 'UTF-8'));
 		$mail->setHtml($this->load->view('mail/order_add', $data));
+		if (is_file($legal_guarantee_notice_file)) {
+			$mail->addAttachment($legal_guarantee_notice_file);
+		}
 		$mail->send();
 
         $mail->setTo($this->config->get('config_email'));

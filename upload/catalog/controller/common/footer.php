@@ -33,6 +33,8 @@ class ControllerCommonFooter extends Controller {
 		$data['order'] = $this->url->link('account/order', '', true);
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['newsletter'] = $this->url->link('account/newsletter', '', true);
+		$data['legal_guarantee_url'] = 'https://europa.eu/youreurope/jamstva_hr';
+		$data['legal_guarantee_notice_svg'] = 'catalog/view/theme/basel/image/legal-guarantee/legal-guarantee-notice-hr.svg';
 
 		$route = isset($this->request->get['route']) ? $this->request->get['route'] : 'common/home';
 		$data['ruta'] = $this->url->link($route, '', 'SSL');

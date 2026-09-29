@@ -32,6 +32,8 @@ $_['text_month']               = 'month';
 $_['text_year']                = 'year';
 
 $_['text_tax_included']                 = '25% VAT included';
+$_['text_legal_guarantee']               = 'Legal guarantee – at least 2 years';
+$_['text_withdrawal_14_days']            = 'Right to withdraw within 14 days';
 
 // Entry
 $_['entry_qty']                = 'Qty';

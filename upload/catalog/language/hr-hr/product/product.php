@@ -36,6 +36,8 @@ $_['text_year']                = 'godina';
 $_['text_short_description']              = 'Osnovne značajke';
 $_['text_spec_description']              = 'Specifikacije';
 $_['text_tax_included']                 = '25% PDV uključeno';
+$_['text_legal_guarantee']               = 'Zakonsko jamstvo – najmanje 2 godine';
+$_['text_withdrawal_14_days']            = 'Pravo na jednostrani raskid u roku od 14 dana';
 
 
 

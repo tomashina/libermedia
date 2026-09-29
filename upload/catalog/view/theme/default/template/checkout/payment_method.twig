@@ -22,6 +22,9 @@
 <p>
   <textarea name="comment" rows="8" class="form-control">{{ comment }}</textarea>
 </p>
+<div class="legal-guarantee-checkout">
+  <a href="{{ legal_guarantee_url }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-shield" aria-hidden="true"></i>{{ text_legal_guarantee }}</a>
+</div>
 {% if text_agree %}
 <div class="buttons">
   <div class="pull-right">{{ text_agree }}
@@ -40,4 +43,4 @@
     <input type="button" value="{{ button_continue }}" id="button-payment-method" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
   </div>
 </div>
-{% endif %} 
+{% endif %}

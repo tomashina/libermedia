@@ -100,6 +100,7 @@ class ControllerCheckoutPaymentMethod extends Controller {
 		}
 
 		$data['scripts'] = $this->document->getScripts();
+		$data['legal_guarantee_url'] = 'https://europa.eu/youreurope/jamstva_hr';
 
 		if ($this->config->get('config_checkout_id')) {
 			$this->load->model('catalog/information');

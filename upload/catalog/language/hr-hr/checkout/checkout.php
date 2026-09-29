@@ -45,6 +45,7 @@ $_['text_month']                     = 'mjesec';
 $_['text_year']                      = 'godina';
 $_['text_login']                      = 'Prijavi se';
 $_['text_review']                      = 'Provjeri narudžbu';
+$_['text_legal_guarantee']              = 'Zakonsko jamstvo – najmanje 2 godine';
 // Column
 $_['column_name']                    = 'Naziv artikla';
 $_['column_model']                   = 'Model';
