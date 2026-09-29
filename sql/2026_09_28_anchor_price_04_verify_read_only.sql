@@ -128,7 +128,9 @@ SELECT
     WHEN COUNT(*) = 1
      AND MAX(c.`column_type` = 'char(32)') = 1
      AND MAX(c.`is_nullable` = 'NO') = 1
-     AND MAX(COALESCE(c.`column_default`, '<NULL>') = '') = 1
+     -- MySQL reports an empty CHAR default as an empty string, while MariaDB
+     -- 10.11 exposes the same default through information_schema as "''".
+     AND MAX(COALESCE(c.`column_default`, '<NULL>') IN ('', QUOTE(''))) = 1
     THEN 'OK' ELSE 'CHECK'
   END AS `result`
 FROM `information_schema`.`columns` c
