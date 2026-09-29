@@ -18,10 +18,10 @@ $_['text_system'] = 'Sustav';
 $_['text_missing_count'] = 'Aktivnih artikala bez sidrene cijene: %s';
 $_['text_success_edit'] = 'Uspješno: Sidrena cijena i revizijski trag su ažurirani.';
 $_['text_success_sync'] = 'Uspješno: Kreirano je %s nedostajućih sidrenih cijena.';
-$_['text_success_publish'] = 'Uspješno: Objavljena su oba cjenika: %s';
+$_['text_success_publish'] = 'Uspješno: Objavljen je cjenik: %s';
 $_['text_success_settings'] = 'Uspješno: Postavke sidrenih cijena su spremljene.';
 $_['text_reference_rule'] = 'Artikli objavljeni do uključivo 10. rujna 2026. koriste 2026-09-10. Kasniji artikli koriste stvarni datum prve objave.';
-$_['text_cron_help'] = 'Pozovite URL svaki radni dan prije 08:00 po vremenu Europe/Zagreb i pošaljite ključ u HTTP zaglavlju X-Anchor-Price-Key. Objavljuje odvojene PJ1 i PJ3 datoteke iz istog skupa artikala.';
+$_['text_cron_help'] = 'Pozovite URL svaki radni dan prije 08:00 po vremenu Europe/Zagreb i pošaljite ključ u HTTP zaglavlju X-Anchor-Price-Key. Objavljuje jedan dnevni cjenik web trgovine.';
 $_['text_audit'] = 'Revizijski trag';
 
 // Stupci
@@ -62,7 +62,7 @@ $_['entry_cron_key'] = 'Cron ključ';
 $_['button_filter'] = 'Filtriraj';
 $_['button_clear'] = 'Očisti';
 $_['button_sync'] = 'Kreiraj nedostajuće sidrene cijene';
-$_['button_publish'] = 'Objavi PJ1 + PJ3 CSV';
+$_['button_publish'] = 'Objavi CSV cjenik';
 $_['button_settings'] = 'Spremi postavke';
 $_['button_download'] = 'Preuzmi';
 
@@ -72,7 +72,7 @@ $_['help_gross_price'] = 'Bruto snapshot s porezom. Mijenjajte samo kada je potr
 $_['help_default_unit'] = 'Koristi se za sve artikle jer trgovina nema strukturirano polje prodajne jedinice. Zadano: kom.';
 
 // Upozorenja i greške
-$_['warning_publication_due'] = 'Dnevni cjenici nisu oba objavljena do 08:00. Nedostaje: %s.';
+$_['warning_publication_due'] = 'Dnevni cjenik nije objavljen do 08:00.';
 $_['error_permission'] = 'Upozorenje: Nemate ovlasti za izmjenu modula Sidrene cijene.';
 $_['error_not_installed'] = 'Tablice modula ne postoje. Najprije instalirajte modul kroz Proširenja.';
 $_['error_not_found'] = 'Tražena sidrena cijena nije pronađena.';

@@ -115,10 +115,10 @@
     <div class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-archive"></i> {{ text_publications }}</h3></div>
       <div class="panel-body"><div class="table-responsive"><table class="table table-bordered table-hover">
-        <thead><tr><td>{{ column_location }}</td><td>{{ column_sequence }}</td><td>{{ column_filename }}</td><td>{{ column_status }}</td><td class="text-right">{{ column_products }}</td><td>{{ column_published }}</td><td class="text-right">{{ column_action }}</td></tr></thead>
-        <tbody>{% if publications %}{% for publication in publications %}<tr>
-          <td><strong>{{ publication.location_code|escape }}</strong></td><td>{{ publication.sequence_no }}</td><td>{{ publication.filename|escape }}</td><td>{{ publication.status|escape }}</td><td class="text-right">{{ publication.product_count }}</td><td>{{ publication.published_at|escape }}</td><td class="text-right">{% if publication.download %}<a href="{{ publication.download }}" title="{{ button_download }}" class="btn btn-default"><i class="fa fa-download"></i></a>{% endif %}</td>
-        </tr>{% endfor %}{% else %}<tr><td colspan="7" class="text-center">{{ text_no_results }}</td></tr>{% endif %}</tbody>
+	        <thead><tr><td>{{ column_sequence }}</td><td>{{ column_filename }}</td><td>{{ column_status }}</td><td class="text-right">{{ column_products }}</td><td>{{ column_published }}</td><td class="text-right">{{ column_action }}</td></tr></thead>
+	        <tbody>{% if publications %}{% for publication in publications %}<tr>
+	          <td>{{ publication.sequence_no }}</td><td>{{ publication.filename|escape }}</td><td>{{ publication.status|escape }}</td><td class="text-right">{{ publication.product_count }}</td><td>{{ publication.published_at|escape }}</td><td class="text-right">{% if publication.download %}<a href="{{ publication.download }}" title="{{ button_download }}" class="btn btn-default"><i class="fa fa-download"></i></a>{% endif %}</td>
+	        </tr>{% endfor %}{% else %}<tr><td colspan="6" class="text-center">{{ text_no_results }}</td></tr>{% endif %}</tbody>
       </table></div></div>
     </div>
   </div>

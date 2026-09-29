@@ -18,10 +18,10 @@ $_['text_system'] = 'System';
 $_['text_missing_count'] = 'Active products without an anchor price: %s';
 $_['text_success_edit'] = 'Success: The anchor price and audit trail have been updated.';
 $_['text_success_sync'] = 'Success: %s missing anchor price(s) were created.';
-$_['text_success_publish'] = 'Success: Both price lists were published: %s';
+$_['text_success_publish'] = 'Success: The price list was published: %s';
 $_['text_success_settings'] = 'Success: The anchor price settings were saved.';
 $_['text_reference_rule'] = 'Products present on or before 10 September 2026 use 2026-09-10. Later products use their first publication date.';
-$_['text_cron_help'] = 'Call this URL every working day before 08:00 Europe/Zagreb and send the key in the X-Anchor-Price-Key HTTP header. It publishes separate PJ1 and PJ3 files from the same product set.';
+$_['text_cron_help'] = 'Call this URL every working day before 08:00 Europe/Zagreb and send the key in the X-Anchor-Price-Key HTTP header. It publishes one daily web-shop price list.';
 $_['text_audit'] = 'Audit trail';
 
 // Columns
@@ -62,7 +62,7 @@ $_['entry_cron_key'] = 'Cron key';
 $_['button_filter'] = 'Filter';
 $_['button_clear'] = 'Clear';
 $_['button_sync'] = 'Create missing anchors';
-$_['button_publish'] = 'Publish PJ1 + PJ3 CSV';
+$_['button_publish'] = 'Publish CSV price list';
 $_['button_settings'] = 'Save settings';
 $_['button_download'] = 'Download';
 
@@ -72,7 +72,7 @@ $_['help_gross_price'] = 'Gross snapshot including tax. Change it only when the 
 $_['help_default_unit'] = 'Used for all products because this shop has no structured sales-unit field. Default: kom.';
 
 // Warnings and errors
-$_['warning_publication_due'] = 'The daily price lists have not both been published by 08:00. Missing: %s.';
+$_['warning_publication_due'] = 'The daily price list has not been published by 08:00.';
 $_['error_permission'] = 'Warning: You do not have permission to modify the Anchor prices module.';
 $_['error_not_installed'] = 'The module tables do not exist. Install the module from Extensions first.';
 $_['error_not_found'] = 'The requested anchor price was not found.';

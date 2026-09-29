@@ -32,7 +32,7 @@
           <tbody>
             {% for publication in publications %}
             <tr>
-              <td><strong>{{ publication.location_code|escape }}</strong> — {{ publication.location_name|escape }}</td>
+	              <td>{{ publication.location_name|escape }}</td>
               <td>{{ publication.published|escape }}</td>
               <td>{{ publication.product_count }}</td>
               <td><a class="btn btn-primary btn-sm" href="{{ publication.download }}" rel="nofollow"><i class="fa fa-download"></i> {{ button_download }}</a><br><small>{{ publication.filename|escape }}</small></td>
